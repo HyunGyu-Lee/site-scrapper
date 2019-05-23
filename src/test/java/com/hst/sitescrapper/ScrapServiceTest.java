@@ -58,7 +58,7 @@ public class ScrapServiceTest {
         when(openGraphReader.read(request.getUrl())).thenReturn(new OpenGraphMetaDataResponse());
 
         // when
-        scrapService.createWebSlice(request);
+        scrapService.createScrap(request);
 
         // then
         verify(webSliceRepository).save(any());

@@ -6,8 +6,6 @@ import com.hst.sitescrapper.service.ScrapService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,17 +18,17 @@ public class ScrapController {
     private ScrapService scrapService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse> findWebSlices() {
-        return new ResponseEntity<>(ApiResponse.of(100, "success", scrapService.findWebSlices()), HttpStatus.OK);
+    public ApiResponse findWebSlices() {
+        return ApiResponse.of(100, "success", scrapService.findScraps());
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createWebSlice(@RequestBody ScrapRequest scrapRequest) {
+    public ApiResponse createWebSlice(@RequestBody ScrapRequest scrapRequest) {
         log.info("New scrap request {}", scrapRequest);
 
-        scrapService.createWebSlice(scrapRequest);
+        scrapService.createScrap(scrapRequest);
 
-        return new ResponseEntity<>(ApiResponse.of(100, "success"), HttpStatus.OK);
+        return ApiResponse.of(100, "success");
     }
 
 

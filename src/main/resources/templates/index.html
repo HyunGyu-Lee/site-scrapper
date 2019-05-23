@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>WEB Slices</title>
+        <title>Site Scrapepr</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <script type="text/javascript" th:src="@{/vendor/jQuery/jquery-3.4.1.min.js}"></script>
-        <script type="text/javascript" th:src="@{/vendor/bootstrap-3.3.2-dist/js/bootstrap.js}"></script>
+        <script type="text/javascript" th:src="@{/vendor/lodash/lodash.js}"></script>
+        <script type="text/javascript" th:src="@{/vendor/bootstrap-4.3.1-dist/js/bootstrap.js}"></script>
 
-        <link rel="stylesheet" th:href="@{/vendor/bootstrap-3.3.2-dist/css/bootstrap.css}">
+        <link rel="stylesheet" th:href="@{/vendor/bootstrap-4.3.1-dist/css/bootstrap.css}">
+        <link rel="stylesheet" th:href="@{/asset/css/index.css}">
     </head>
     <body>
         <div class="container">
@@ -16,33 +18,22 @@
             <br/><br/><br/><br/>
 
             <div class="row">
-                <div class="input-group mb-3">
-                    <input type="text"  id="web-site-url"  class="form-control" placeholder="웹 사이트 주소를 입력하세요" >
-                    <div class="input-group-append">
-                        <button id="btn-scrap" type="button" class="btn btn-primary">스크랩</button>
+                <div class="col-lg-12">
+                    <div class="input-group mb-3">
+                        <input type="text"  id="web-site-url"  class="form-control" placeholder="웹 사이트 주소를 입력하세요" >
+                        <span class="input-group-btn">
+                            <button id="btn-scrap" class="btn btn-primary" type="button">스크랩</button>
+                        </span>
                     </div>
                 </div>
             </div>
-
-            <br/><br/><br/><br/>
+            <hr>
             <!-- slice list -->
             <h4>스크랩 목록</h4>
-            <table id="web-slice-table" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>주소</th>
-                        <th>링크제목</th>
-                        <th>스크랩시간</th>
-                        <th>썸네일</th>
-                        <th>설명</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div id="scrap-list-area"></div>
         </div>
 
         <!-- Page Script -->
-        <script type="text/javascript" th:src="@{/asset/index.js}"></script>
+        <script type="text/javascript" th:src="@{/asset/js/index.js}"></script>
     </body>
 </html>

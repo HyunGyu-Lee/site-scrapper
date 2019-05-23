@@ -36,7 +36,7 @@ public class ScrapService {
      *
      * @return 슬라이스 목록
      */
-    public List<ScrapResponse> findWebSlices() {
+    public List<ScrapResponse> findScraps() {
         return scrapRepository.findAll().stream().map(e -> {
             ScrapResponse res = new ScrapResponse();
             res.setCreateAt(e.getCreateAt());
@@ -54,7 +54,7 @@ public class ScrapService {
      *
      * @param scrapRequest 등록 요청
      */
-    public void createWebSlice(ScrapRequest scrapRequest) {
+    public void createScrap(ScrapRequest scrapRequest) {
         // Todo Check Request is valid
 
         String scrapUrl = scrapRequest.getUrl();
@@ -62,6 +62,7 @@ public class ScrapService {
 
         try {
             openGraphMetaDataResponse = openGraphReader.read(scrapUrl);
+            log.info("{}", openGraphMetaDataResponse);
         } catch (IOException e) {
             log.error("open graph meta data read fail", e);
             throw new ServiceException("웹 사이트 메타데이터 분석에 실패했습니다.");

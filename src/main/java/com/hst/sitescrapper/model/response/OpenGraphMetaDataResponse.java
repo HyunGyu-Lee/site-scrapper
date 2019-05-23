@@ -1,5 +1,7 @@
 package com.hst.sitescrapper.model.response;
 
+import com.hst.sitescrapper.type.MetadataType;
+
 import java.util.Map;
 
 public class OpenGraphMetaDataResponse {
@@ -43,12 +45,22 @@ public class OpenGraphMetaDataResponse {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return "OpenGraphMetaDataResponse{" +
+                "title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
     public static OpenGraphMetaDataResponse of(Map<String, String> ogMeta) {
         OpenGraphMetaDataResponse response = new OpenGraphMetaDataResponse();
-        response.setTitle(ogMeta.get("title"));
-        response.setImageUrl(ogMeta.get("image"));
-        response.setUrl(ogMeta.get("url"));
-        response.setDescription(ogMeta.get("description"));
+        response.setTitle(ogMeta.get(MetadataType.OG_TITLE.getMetaTypeName()));
+        response.setImageUrl(ogMeta.get(MetadataType.OG_IMAGE.getMetaTypeName()));
+        response.setUrl(ogMeta.get(MetadataType.OG_URL.getMetaTypeName()));
+        response.setDescription(ogMeta.get(MetadataType.OG_DESCRIPTION.getMetaTypeName()));
         return response;
     }
 }
