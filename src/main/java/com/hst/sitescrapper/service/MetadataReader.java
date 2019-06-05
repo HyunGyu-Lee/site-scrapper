@@ -1,6 +1,6 @@
 package com.hst.sitescrapper.service;
 
-import com.hst.sitescrapper.model.response.OpenGraphMetaDataResponse;
+import com.hst.sitescrapper.model.response.MetaDataResponse;
 import com.hst.sitescrapper.type.MetadataType;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class OpenGraphReader {
+public class MetadataReader {
 
-    private Logger log = LoggerFactory.getLogger(OpenGraphReader.class);
+    private Logger log = LoggerFactory.getLogger(MetadataReader.class);
 
-    public OpenGraphMetaDataResponse read(String requestUrl) throws IOException {
-        Document document = Jsoup.connect(requestUrl).get();
+    public MetaDataResponse read(String requestUrl) throws IOException {
+        Document document = getWebsiteDocument(requestUrl);
         Elements metaTags = document.getElementsByTag("meta");
         Map<String, String> ogMeta = new HashMap<>();
 
@@ -42,7 +42,11 @@ public class OpenGraphReader {
             throw new IOException("Cannot read open graph meta data");
         }
 
-        return OpenGraphMetaDataResponse.of(ogMeta);
+        return MetaDataResponse.of(ogMeta);
+    }
+
+    private Document getWebsiteDocument(String requestUrl) throws IOException {
+        return Jsoup.connect(requestUrl).get();
     }
 
     private Map<String, String> additionalReading(Document document) {

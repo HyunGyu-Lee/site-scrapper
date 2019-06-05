@@ -3,7 +3,7 @@ package com.hst.sitescrapper.service;
 import com.hst.sitescrapper.exception.ServiceException;
 import com.hst.sitescrapper.model.entity.Scrap;
 import com.hst.sitescrapper.model.request.ScrapRequest;
-import com.hst.sitescrapper.model.response.OpenGraphMetaDataResponse;
+import com.hst.sitescrapper.model.response.MetaDataResponse;
 import com.hst.sitescrapper.model.response.ScrapResponse;
 import com.hst.sitescrapper.repository.ScrapRepository;
 import org.slf4j.Logger;
@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 public class ScrapService {
 
     private ScrapRepository scrapRepository;
-    private OpenGraphReader openGraphReader;
+    private MetadataReader metadataReader;
 
     @Autowired
-    public ScrapService(ScrapRepository scrapRepository, OpenGraphReader openGraphReader) {
+    public ScrapService(ScrapRepository scrapRepository, MetadataReader metadataReader) {
         this.scrapRepository = scrapRepository;
-        this.openGraphReader = openGraphReader;
+        this.metadataReader = metadataReader;
     }
 
     private Logger log = LoggerFactory.getLogger(getClass());
@@ -37,16 +37,7 @@ public class ScrapService {
      * @return 슬라이스 목록
      */
     public List<ScrapResponse> findScraps() {
-        return scrapRepository.findAll().stream().map(e -> {
-            ScrapResponse res = new ScrapResponse();
-            res.setCreateAt(e.getCreateAt());
-            res.setId(e.getId().toString());
-            res.setUrl(e.getUrl());
-            res.setTitle(e.getTitle());
-            res.setImage(e.getImage());
-            res.setDescription(e.getDescription());
-            return res;
-        }).collect(Collectors.toList());
+        return scrapRepository.findAll().stream().map(ScrapResponse::of).collect(Collectors.toList());
     }
 
     /***
@@ -58,11 +49,12 @@ public class ScrapService {
         // Todo Check Request is valid
 
         String scrapUrl = scrapRequest.getUrl();
-        OpenGraphMetaDataResponse openGraphMetaDataResponse;
+        MetaDataResponse metaDataResponse;
 
+        // todo MetadataReader
         try {
-            openGraphMetaDataResponse = openGraphReader.read(scrapUrl);
-            log.info("{}", openGraphMetaDataResponse);
+            metaDataResponse = metadataReader.read(scrapUrl);
+            log.info("{}", metaDataResponse);
         } catch (IOException e) {
             log.error("open graph meta data read fail", e);
             throw new ServiceException("웹 사이트 메타데이터 분석에 실패했습니다.");
@@ -73,9 +65,9 @@ public class ScrapService {
         scrap.setId(UUID.randomUUID());
         scrap.setUrl(scrapUrl);
         scrap.setCreateAt(new Date());
-        scrap.setTitle(openGraphMetaDataResponse.getTitle());
-        scrap.setImage(openGraphMetaDataResponse.getImageUrl());
-        scrap.setDescription(openGraphMetaDataResponse.getDescription());
+        scrap.setTitle(metaDataResponse.getTitle());
+        scrap.setImage(metaDataResponse.getImageUrl());
+        scrap.setDescription(metaDataResponse.getDescription());
 
         scrapRepository.save(scrap);
     }

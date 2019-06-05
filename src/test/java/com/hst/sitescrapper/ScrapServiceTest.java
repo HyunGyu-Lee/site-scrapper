@@ -1,9 +1,9 @@
 package com.hst.sitescrapper;
 
 import com.hst.sitescrapper.model.request.ScrapRequest;
-import com.hst.sitescrapper.model.response.OpenGraphMetaDataResponse;
+import com.hst.sitescrapper.model.response.MetaDataResponse;
 import com.hst.sitescrapper.repository.ScrapRepository;
-import com.hst.sitescrapper.service.OpenGraphReader;
+import com.hst.sitescrapper.service.MetadataReader;
 import com.hst.sitescrapper.service.ScrapService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +29,10 @@ public class ScrapServiceTest {
     private ScrapRepository webSliceRepository;
 
     @Mock
-    private OpenGraphReader openGraphReader;
+    private MetadataReader metadataReader;
 
     @InjectMocks
-    private ScrapService scrapService = new ScrapService(webSliceRepository, openGraphReader);
+    private ScrapService scrapService = new ScrapService(webSliceRepository, metadataReader);
 
     private String MOCK_URL = "https://www.naver.com";
 
@@ -55,7 +55,7 @@ public class ScrapServiceTest {
         ScrapRequest request = mock(ScrapRequest.class);
         request.setUrl(MOCK_URL);
 
-        when(openGraphReader.read(request.getUrl())).thenReturn(new OpenGraphMetaDataResponse());
+        when(metadataReader.read(request.getUrl())).thenReturn(new MetaDataResponse());
 
         // when
         scrapService.createScrap(request);

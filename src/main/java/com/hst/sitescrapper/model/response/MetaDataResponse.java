@@ -4,7 +4,7 @@ import com.hst.sitescrapper.type.MetadataType;
 
 import java.util.Map;
 
-public class OpenGraphMetaDataResponse {
+public class MetaDataResponse {
 
     private String title;
     private String url;
@@ -47,7 +47,7 @@ public class OpenGraphMetaDataResponse {
 
     @Override
     public String toString() {
-        return "OpenGraphMetaDataResponse{" +
+        return "MetaDataResponse{" +
                 "title='" + title + '\'' +
                 ", url='" + url + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
@@ -55,8 +55,8 @@ public class OpenGraphMetaDataResponse {
                 '}';
     }
 
-    public static OpenGraphMetaDataResponse of(Map<String, String> ogMeta) {
-        OpenGraphMetaDataResponse response = new OpenGraphMetaDataResponse();
+    public static MetaDataResponse of(Map<String, String> ogMeta) {
+        MetaDataResponse response = new MetaDataResponse();
         response.setTitle(ogMeta.get(MetadataType.OG_TITLE.getMetaTypeName()));
         response.setImageUrl(ogMeta.get(MetadataType.OG_IMAGE.getMetaTypeName()));
         response.setUrl(ogMeta.get(MetadataType.OG_URL.getMetaTypeName()));
