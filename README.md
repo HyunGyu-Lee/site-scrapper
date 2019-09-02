@@ -1,6 +1,8 @@
 # site-scrapper
 
 ## TODO Pool
+- [ ] BE / FE 분리
+  - [ ] frontend Vue 적용
 - [ ] Spring Security 적용해서 네이버/구글 소셜 로그인 기능 개발
   - [ ] 로그인 페이지 개발
   - [ ] 네이버 로그인 연동
@@ -11,6 +13,7 @@
 - [ ] 스크랩 외부 사이트로 공유 기능
 
 ## In Process
+- [ ] 기획서 제작
 
 ## Done
 #### 2019-05-20
