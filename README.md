@@ -2,7 +2,8 @@
 
 ## TODO Pool
 - [ ] BE / FE 분리
-  - [ ] frontend Vue 적용
+  - [x] frontend Vue 적용
+  - [ ] root / be / fe 프로젝트 pom.xml 작성
 - [ ] Spring Security 적용해서 네이버/구글 소셜 로그인 기능 개발
   - [ ] 로그인 페이지 개발
   - [ ] 네이버 로그인 연동
