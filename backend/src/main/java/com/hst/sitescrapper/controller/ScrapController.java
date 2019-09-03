@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("scrap")
+@RequestMapping("/api/scrap")
 public class ScrapController {
 
     private Logger log = LoggerFactory.getLogger(getClass());
