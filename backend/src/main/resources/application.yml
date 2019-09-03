@@ -1,0 +1,9 @@
+# server settings
+server:
+  port: 8000
+
+# h2 settings
+spring:
+  h2:
+    console:
+      enabled: true
