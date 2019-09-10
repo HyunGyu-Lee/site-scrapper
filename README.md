@@ -1,9 +1,6 @@
 # site-scrapper
 
 ## TODO Pool
-- [ ] BE / FE 분리
-  - [x] frontend Vue 적용
-  - [ ] root / be / fe 프로젝트 pom.xml 작성
 - [ ] Spring Security 적용해서 네이버/구글 소셜 로그인 기능 개발
   - [ ] 로그인 페이지 개발
   - [ ] 네이버 로그인 연동
@@ -14,9 +11,12 @@
 - [ ] 스크랩 외부 사이트로 공유 기능
 
 ## In Process
-- [ ] 기획서 제작
+- [ ] 기존 Thymeleaf로 구현된 프론트엔드 Vue 기반으로 재작성
 
 ## Done
+#### 2019-05-19
+- [x] 기획서 제작 완료
+
 #### 2019-05-20
 - [x] Open Graph 파싱 기능 개발 완료
 - [x] 스크랩 목록 조회 기능 개발 완료
@@ -24,3 +24,8 @@
 
 #### 2019-05-21
 - [x] 스크랩 목록 Card Layout 적용 완료
+
+#### 2019-09-10
+- [x] BE / FE 분리
+  - [x] frontend Vue 적용
+  - [x] root / be / fe 프로젝트 pom.xml 작성
