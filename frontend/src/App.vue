@@ -14,9 +14,14 @@
         <span class="mr-2">Latest Release</span>
       </v-btn>
     </v-app-bar>
-
     <v-content>
-      <HelloWorld/>
+      <v-btn>
+        <router-link to="/">Home</router-link>
+      </v-btn>
+      <v-btn>
+        <router-link to="/about">About</router-link>
+      </v-btn>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
