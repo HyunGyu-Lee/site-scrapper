@@ -28,10 +28,8 @@
     </v-app-bar>
     <!-- Content -->
     <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <router-view></router-view>
-        </v-row>
+      <v-container fluid>
+        <router-view></router-view>
       </v-container>
     </v-content>
     <!-- Footer -->
