@@ -1,41 +1,52 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
+    <!-- Left Drawer -->
+    <v-navigation-drawer v-model="drawer" app clipped>
+      <v-list dense>
+        <v-list-item to="/dashboard">
+          <v-list-item-action>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/about">
+          <v-list-item-action>
+            <v-icon>mdi-settings</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <!-- Navigation Bar -->
+    <v-app-bar app clipped-left>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Site Scrapper</v-toolbar-title>
     </v-app-bar>
+    <!-- Content -->
     <v-content>
-      <v-btn>
-        <router-link to="/">Home</router-link>
-      </v-btn>
-      <v-btn>
-        <router-link to="/about">About</router-link>
-      </v-btn>
-      <router-view></router-view>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <router-view></router-view>
+        </v-row>
+      </v-container>
     </v-content>
+    <!-- Footer -->
+    <v-footer app>
+      <span>&copy; Team HST. All rights reserved.</span>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld,
-  },
+  name: "App",
+  components: {},
   data: () => ({
-    //
-  }),
+    drawer: null
+  })
 };
 </script>
