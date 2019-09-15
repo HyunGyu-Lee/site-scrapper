@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from '@/views/Dashboard.vue'
+import ScrapView from '@/views/ScrapView.vue'
 
 Vue.use(Router)
 
@@ -9,17 +9,17 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: Dashboard
+      path: '/scraps',
+      name: 'scrap-view',
+      component: ScrapView
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/settings',
+      name: 'setting-view',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
+      component: () => import(/* webpackChunkName: "about" */ '@/views/SettingView.vue')
     }
   ]
 })

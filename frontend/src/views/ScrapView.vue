@@ -12,29 +12,22 @@
     </v-row>    
     <v-row align="start" justify="center" v-for="scrap in scraps" :key="scrap.id">
       <v-col cols="6">
-        <v-card dark>
-          <v-list-item three-line>
-            <v-list-item-content class="align-self-start">
-              <v-list-item-title class="headline mb-2" v-text="scrap.title"></v-list-item-title>
-              <v-list-item-subtitle v-text="scrap.description"></v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-avatar size="125" tile>
-              <v-img :src="scrap.image"></v-img>
-            </v-list-item-avatar>
-          </v-list-item>
-        </v-card>
+        <scrap :scrap="scrap"></scrap>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import Scrap from '@/components/Scrap';
+
 export default {
-  name: "dashboard",
-  components: {},
+  name: 'scrap-view',
+  components: {
+    Scrap
+  },
   data: () => ({
-    scrapUrl: "",
+    scrapUrl: '',
     scraps: []
   }),
   created() {
@@ -42,22 +35,22 @@ export default {
   },
   methods: {
     findScraps: function() {
-      this.$http.get("/api/scrap").then(response => {
+      this.$http.get('/api/scrap').then(response => {
         this.scraps = response.data.body;
       });
     },
     addScrap: function() {
       if (!this.scrapUrl) {
-        alert("URL 을 입력하세요");
+        alert('URL 을 입력하세요');
         return;
       }
 
-      this.$http.post("/api/scrap", { url: this.scrapUrl }).then(response => {
+      this.$http.post('/api/scrap', { url: this.scrapUrl }).then(response => {
         console.log(response);
         this.findScraps();
       });
 
-      this.scrapUrl = "";
+      this.scrapUrl = '';
     }
   }
 };
