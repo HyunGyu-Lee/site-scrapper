@@ -2,28 +2,33 @@
   <v-app>
     <!-- Left Drawer -->
     <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>Application</v-list-item-title>
-          <v-list-item-subtitle>subtext</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+      <template v-slot:prepend>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img src="https://randomuser.me/api/portraits/men/1.jpg">
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>나하나쯤이야</v-list-item-title>
+            <v-list-item-subtitle>로그아웃</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
       <v-divider></v-divider>
       <v-list dense nav>
         <v-list-item to="/scraps">
           <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
+            <v-icon>mdi-widgets</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>스크랩</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/about">
+        <v-list-item to="/settings">
           <v-list-item-action>
             <v-icon>mdi-settings</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
+            <v-list-item-title>설정</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

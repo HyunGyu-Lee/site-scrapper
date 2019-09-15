@@ -1,17 +1,28 @@
 <template>
   <v-container>
-    <v-row align="start" justify="center">
-      <v-col cols="6">
-        <v-text-field v-model="scrapUrl" label="Scrap for" @keyup.enter.stop="addScrap"></v-text-field>
+    <!-- <v-row align="start" justify="center">
+      <v-col cols="12">
+        <h2><v-icon>mdi-widgets</v-icon> 스크랩</h2>
+      </v-col>
+    </v-row>     -->
+    <v-row align="start" justify="center" class="pt-0 mt-0">
+      <v-col cols="12" class="pt-0 pb-0 mt-0 mb-0">
+        <v-text-field class="pt-0"
+          v-model="scrapUrl" 
+          append-outer-icon="mdi-send"
+          label="새 스크랩" 
+          @keyup.enter.stop="addScrap"
+          @click:append-outer="addScrap">
+        </v-text-field>
       </v-col>      
     </v-row>
     <v-row align="start" justify="center">
-      <v-col cols="6">
-        <h3><v-icon>mdi-widgets</v-icon> 스크랩 목록</h3>
+      <v-col cols="12">
+        <h3><v-icon>mdi-widgets</v-icon> 내 스크랩</h3>
       </v-col>
     </v-row>    
     <v-row align="start" justify="center" v-for="scrap in scraps" :key="scrap.id">
-      <v-col cols="6">
+      <v-col cols="12">
         <scrap :scrap="scrap"></scrap>
       </v-col>
     </v-row>

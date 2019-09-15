@@ -1,25 +1,33 @@
 <template>
   <v-card>
-    <v-list-item three-line>
-      <v-list-item-content class="align-self-start">
-        <v-list-item-title class="headline mb-2" v-text="scrap.title"></v-list-item-title>
-        <v-list-item-subtitle v-text="scrap.description"></v-list-item-subtitle>
-      </v-list-item-content>
-      <v-list-item-avatar size="125" tile>
-        <v-img :src="scrap.image"></v-img>
-      </v-list-item-avatar>
-    </v-list-item>
+    <v-img class="white--text" height="200px" :src="scrap.image">
+      <v-card-title class="align-end fill-height">
+      <span class="title text-truncate">
+        <strong>{{scrap.title}}</strong>
+      </span>
+      </v-card-title>
+    </v-img>
+    <!-- <v-card-title>
+      <span class="subtitle-1 text-truncate">
+        <strong>{{scrap.title}}</strong>
+      </span>
+    </v-card-title> -->
+    <v-divider></v-divider>
+    <v-card-text v-text="scrap.description"></v-card-text>
+    <v-card-actions>
+      <v-btn text :link="true" :href="scrap.url" target="_blank">READ</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script>
 export default {
-    props: {
-        scrap: {
-            type: Object,
-            required: true
-        }
+  props: {
+    scrap: {
+      type: Object,
+      required: true
     }
+  }
 };
 </script>
 
