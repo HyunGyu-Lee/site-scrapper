@@ -4,9 +4,13 @@ import router from './plugins/router'
 import store from './plugins/store'
 import axios from 'axios'
 import vuetify from './plugins/vuetify';
+import moment from 'moment';
+import VueMomentJS from 'vue-momentjs';
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+
+Vue.use(VueMomentJS, moment);
 
 new Vue({
   router,

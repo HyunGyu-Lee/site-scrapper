@@ -2,20 +2,45 @@
   <v-card>
     <v-img class="white--text" height="200px" :src="scrap.image">
       <v-card-title class="align-end fill-height">
-      <span class="title text-truncate">
-        <strong>{{scrap.title}}</strong>
-      </span>
+        <span class="title text-truncate">
+          <strong>{{scrap.title}}</strong>
+        </span>
       </v-card-title>
     </v-img>
-    <!-- <v-card-title>
-      <span class="subtitle-1 text-truncate">
-        <strong>{{scrap.title}}</strong>
-      </span>
-    </v-card-title> -->
     <v-divider></v-divider>
-    <v-card-text v-text="scrap.description"></v-card-text>
+    <v-card-text>
+      <span v-text="scrap.description"></span>
+      <v-btn icon @click="showDetails = !showDetails">
+        <v-icon>{{showDetails ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
+      </v-btn>
+    </v-card-text>
+    <v-expand-transition>
+      <div v-show="showDetails">
+        <v-card-text>
+          <span class="caption">
+            <strong>SOURCE URL</strong>
+          </span>
+          <br />
+          <span v-text="scrap.url"></span>
+          <br />
+          <br />
+          <span class="caption">
+            <strong>SCRAPED AT</strong>
+          </span>
+          <br />
+          <span class="overline" v-text="dateFormat(scrap.createAt)"></span>
+        </v-card-text>
+      </div>
+    </v-expand-transition>
+    <v-divider></v-divider>
     <v-card-actions>
-      <v-btn text :link="true" :href="scrap.url" target="_blank">READ</v-btn>
+      <div class="flex-grow-1"></div>
+      <v-btn icon :link="true" :href="scrap.url" target="_blank">
+        <v-icon>mdi-share-variant</v-icon>
+      </v-btn>
+      <v-btn icon :link="true" :href="scrap.url" target="_blank">
+        <v-icon>mdi-launch</v-icon>
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -26,6 +51,14 @@ export default {
     scrap: {
       type: Object,
       required: true
+    }
+  },
+  data: () => ({
+    showDetails: false
+  }),
+  methods: {
+    dateFormat: function(dateString) {
+      return this.$moment(dateString).format("YYYY-MM-DD HH:mm:ss");
     }
   }
 };

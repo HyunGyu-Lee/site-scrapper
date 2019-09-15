@@ -1,10 +1,5 @@
 <template>
   <v-container>
-    <!-- <v-row align="start" justify="center">
-      <v-col cols="12">
-        <h2><v-icon>mdi-widgets</v-icon> 스크랩</h2>
-      </v-col>
-    </v-row>     -->
     <v-row align="start" justify="center" class="pt-0 mt-0">
       <v-col cols="12" class="pt-0 pb-0 mt-0 mb-0">
         <v-text-field class="pt-0"
