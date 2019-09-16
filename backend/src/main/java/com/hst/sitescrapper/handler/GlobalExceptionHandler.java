@@ -14,12 +14,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnAuthorizedException.class)
     public ApiResponse handleUnAuthorizedException(UnAuthorizedException e) {
-        return ApiResponse.of(HttpStatus.UNAUTHORIZED, e.getMessage());
+        return new ApiResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
     }
 
     @ExceptionHandler(ServiceException.class)
     public ApiResponse handleServiceException(ServiceException e) {
-        return ApiResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
 }

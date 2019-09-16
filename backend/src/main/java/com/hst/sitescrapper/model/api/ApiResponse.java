@@ -1,50 +1,66 @@
 package com.hst.sitescrapper.model.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.hst.sitescrapper.model.api.ApiHeader;
 import org.springframework.http.HttpStatus;
 
+/***
+ * @author dlgusrb0808@gmail.com
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse {
+@JsonPropertyOrder({"header", "body"})
+public class ApiResponse<T> {
     private ApiHeader header;
-    private Object body;
+    private T body;
+
+    /***
+     * basic constructor
+     */
+    public ApiResponse() {
+        this(ApiHeader.of(HttpStatus.OK), null);
+    }
+
+    /***
+     * constructor with header
+     * @param code
+     * @param message
+     */
+    public ApiResponse(int code, String message) {
+        this(ApiHeader.of(code, message), null);
+    }
+
+    /***
+     * constructor with only body
+     * @param body
+     */
+    public ApiResponse(T body) {
+        this(ApiHeader.of(HttpStatus.OK), body);
+    }
+
+    /***
+     * core constructor with header, body
+     * @param header
+     * @param body
+     */
+    public ApiResponse(ApiHeader header, T body) {
+        this.header = header;
+        this.body = body;
+    }
 
     public ApiHeader getHeader() {
         return header;
     }
 
-    public void setHeader(ApiHeader header) {
-        this.header = header;
-    }
-
-    public Object getBody() {
+    public T getBody() {
         return body;
     }
 
-    public void setBody(Object body) {
-        this.body = body;
+    public static ApiResponse ok() {
+        return ok(null);
     }
 
-    public static ApiResponse of(HttpStatus status) {
-        return of (status.value(), status.getReasonPhrase(), null);
-    }
-
-    public static ApiResponse of(HttpStatus status, String message) {
-        return of (status.value(), message, null);
-    }
-
-    public static ApiResponse of(HttpStatus status, Object body) {
-        return of (status.value(), status.getReasonPhrase(), body);
-    }
-
-    public static ApiResponse of(HttpStatus status, String message, Object body) {
-        return of (status.value(), message, body);
-    }
-
-    public static ApiResponse of(int code, String message, Object body) {
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setHeader(ApiHeader.of(code, message));
-        apiResponse.setBody(body);
-
-        return apiResponse;
+    public static <T> ApiResponse<T> ok(T body) {
+        return new ApiResponse<>(body);
     }
 }

@@ -1,5 +1,6 @@
 package com.hst.sitescrapper.interceptor;
 
+import com.hst.sitescrapper.constants.GlobalConstants;
 import com.hst.sitescrapper.exception.UnAuthorizedException;
 import com.hst.sitescrapper.service.JwtService;
 import org.apache.commons.lang3.StringUtils;
@@ -20,14 +21,12 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 
 	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationInterceptor.class);
 
-	private static final String AUTHORIZATION_HEADER = "Authorization";
-
 	@Autowired
 	private JwtService jwtService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER);
+		String authorizationHeader = request.getHeader(GlobalConstants.JWT.AUTHORIZATION_HEADER);
 
 		if (StringUtils.isEmpty(authorizationHeader)) {
 			throw new UnAuthorizedException("No authorization header presented");
@@ -36,7 +35,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 		}
 
 		String token = authorizationHeader.split(" ")[1];
-		if (!jwtService.isValidToken(token, "authorizedUser")) {
+		if (!jwtService.isValidToken(token, GlobalConstants.JWT.AUTHORIZED_USER_SUBJECT)) {
 			throw new UnAuthorizedException("Invalid token");
 		}
 

@@ -1,29 +1,34 @@
 package com.hst.sitescrapper.model.api;
 
+import org.springframework.http.HttpStatus;
+
+/***
+ * @author dlgusrb0808@gmail.com
+ */
 public class ApiHeader {
-    private Integer code;
+    private int code;
     private String message;
 
-    public Integer getCode() {
-        return code;
+    private ApiHeader () {
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public int getCode() {
+        return code;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public static ApiHeader of(HttpStatus status) {
+        return of(status.value(), status.getReasonPhrase());
     }
 
-    public static ApiHeader of(Integer code, String message) {
-        ApiHeader apiHeader = new ApiHeader();
-        apiHeader.setCode(code);
-        apiHeader.setMessage(message);
-        return apiHeader;
+    public static ApiHeader of(int code, String message) {
+        ApiHeader header = new ApiHeader();
+        header.code = code;
+        header.message = message;
+        return header;
     }
+
 }
