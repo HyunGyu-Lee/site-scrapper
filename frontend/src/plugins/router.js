@@ -1,25 +1,36 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ScrapView from '@/views/ScrapView.vue'
+import LoginView from '@/views/LoginView'
 
 Vue.use(Router)
+
+const requireAuth = (to, from, next) => {
+  next({
+    path: '/login',
+    query: {redirectUrl: to.fullPath}
+  })
+}
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/login',
+      name: 'login-view',
+      component: LoginView
+    },
+    {
       path: '/scraps',
       name: 'scrap-view',
-      component: ScrapView
+      component: () => import('@/views/ScrapView'),
+      beforeEnter: requireAuth
     },
     {
       path: '/settings',
       name: 'setting-view',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '@/views/SettingView.vue')
+      component: () => import(/* webpackChunkName: "about" */ '@/views/SettingView.vue'),
+      beforeEnter: requireAuth
     }
   ]
 })
