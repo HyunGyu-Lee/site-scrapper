@@ -1,9 +1,8 @@
 package com.hst.sitescrapper.model.api;
 
 public class ApiHeader {
-
-    private Integer code;   // business code not http code
-    private String message; // business message not http message
+    private Integer code;
+    private String message;
 
     public Integer getCode() {
         return code;
