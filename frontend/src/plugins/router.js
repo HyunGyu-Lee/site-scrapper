@@ -24,7 +24,7 @@ export default new Router({
       path: '/scraps',
       name: 'scrap-view',
       component: () => import('@/views/ScrapView'),
-      beforeEnter: requireAuth
+//      beforeEnter: requireAuth
     },
     {
       path: '/settings',

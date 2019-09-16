@@ -26,6 +26,7 @@
 
 <script>
 import Scrap from '@/components/Scrap';
+import Scraps from '@/api/scraps';
 
 export default {
   name: 'scrap-view',
@@ -41,7 +42,7 @@ export default {
   },
   methods: {
     findScraps: function() {
-      this.$http.get('/api/scrap').then(response => {
+      Scraps.list().then(response => {
         this.scraps = response.data.body;
       });
     },
@@ -50,9 +51,8 @@ export default {
         alert('URL 을 입력하세요');
         return;
       }
-
-      this.$http.post('/api/scrap', { url: this.scrapUrl }).then(response => {
-        console.log(response);
+      
+      Scraps.create({ url: this.scrapUrl }).then(() => {
         this.findScraps();
       });
 
