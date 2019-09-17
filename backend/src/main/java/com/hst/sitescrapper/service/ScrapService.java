@@ -1,7 +1,7 @@
 package com.hst.sitescrapper.service;
 
 import com.hst.sitescrapper.exception.ServiceException;
-import com.hst.sitescrapper.model.entity.Scrap;
+import com.hst.sitescrapper.model.entity.ScrapEntity;
 import com.hst.sitescrapper.model.request.ScrapRequest;
 import com.hst.sitescrapper.model.response.MetaDataResponse;
 import com.hst.sitescrapper.model.response.ScrapResponse;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -61,10 +60,8 @@ public class ScrapService {
         }
 
         // Create entity
-        Scrap scrap = new Scrap();
-        scrap.setId(UUID.randomUUID());
+        ScrapEntity scrap = new ScrapEntity();
         scrap.setUrl(scrapUrl);
-        scrap.setCreateAt(new Date());
         scrap.setTitle(metaDataResponse.getTitle());
         scrap.setImage(metaDataResponse.getImageUrl());
         scrap.setDescription(metaDataResponse.getDescription());

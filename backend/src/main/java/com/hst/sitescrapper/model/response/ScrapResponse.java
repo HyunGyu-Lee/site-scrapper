@@ -1,27 +1,27 @@
 package com.hst.sitescrapper.model.response;
 
-import com.hst.sitescrapper.model.entity.Scrap;
+import com.hst.sitescrapper.model.entity.ScrapEntity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class ScrapResponse {
-    private String id;
+    private Long id;
     private String url;
-    private Date createAt;
+    private LocalDateTime createdAt;
     private String title;
     private String image;
     private String description;
 
-    private ScrapResponse(String id, String url, Date createAt, String title, String image, String description) {
+    private ScrapResponse(Long id, String url, LocalDateTime createdAt, String title, String image, String description) {
         this.id = id;
         this.url = url;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
         this.title = title;
         this.image = image;
         this.description = description;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -29,8 +29,8 @@ public class ScrapResponse {
         return url;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public String getTitle() {
@@ -45,11 +45,11 @@ public class ScrapResponse {
         return description;
     }
 
-    public static ScrapResponse of(Scrap scrap) {
+    public static ScrapResponse of(ScrapEntity scrap) {
         return new ScrapResponse(
-                scrap.getId().toString(),
+                scrap.getId(),
                 scrap.getUrl(),
-                scrap.getCreateAt(),
+                scrap.getCreatedAt(),
                 scrap.getTitle(),
                 scrap.getImage(),
                 scrap.getDescription()

@@ -2,7 +2,7 @@ package com.hst.sitescrapper.interceptor;
 
 import com.hst.sitescrapper.constants.GlobalConstants;
 import com.hst.sitescrapper.exception.UnAuthorizedException;
-import com.hst.sitescrapper.service.JwtService;
+import com.hst.sitescrapper.service.JwtTokenProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationInterceptor.class);
 
 	@Autowired
-	private JwtService jwtService;
+	private JwtTokenProvider jwtTokenProvider;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -35,7 +35,7 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 		}
 
 		String token = authorizationHeader.split(" ")[1];
-		if (!jwtService.isValidToken(token, GlobalConstants.JWT.AUTHORIZED_USER_SUBJECT)) {
+		if (!jwtTokenProvider.validateToken(token)) {
 			throw new UnAuthorizedException("Invalid token");
 		}
 

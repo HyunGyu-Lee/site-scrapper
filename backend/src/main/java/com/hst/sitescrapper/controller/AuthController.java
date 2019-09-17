@@ -1,10 +1,8 @@
 package com.hst.sitescrapper.controller;
 
-import com.hst.sitescrapper.constants.GlobalConstants;
 import com.hst.sitescrapper.model.api.ApiResponse;
-import com.hst.sitescrapper.service.JwtService;
+import com.hst.sitescrapper.service.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +21,7 @@ import static com.hst.sitescrapper.constants.GlobalConstants.*;
 public class AuthController {
 
 	@Autowired
-	private JwtService jwtService;
+	private JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("sign-in")
 	public ApiResponse<String> signin(@RequestBody  SigninRequest signinRequest) {
@@ -33,8 +31,9 @@ public class AuthController {
 		tempUser.put("password", signinRequest.password);
 		tempUser.put("name", "HyunGyu-Lee");
 
-		String token = jwtService.createToken(JWT.AUTHORIZED_USER_OBJECT_KEY, tempUser, JWT.AUTHORIZED_USER_SUBJECT);
+		Long id = 9291891239L;
 
+		String token = jwtTokenProvider.createToken(id, "");
 		return new ApiResponse<>(token);
 	}
 

@@ -28,7 +28,7 @@
             <strong>SCRAPED AT</strong>
           </span>
           <br />
-          <span class="overline" v-text="dateFormat(scrap.createAt)"></span>
+          <span class="overline" v-text="dateFormat(scrap.createdAt)"></span>
         </v-card-text>
       </div>
     </v-expand-transition>

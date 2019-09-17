@@ -1,18 +1,13 @@
 package com.hst.sitescrapper.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
-import java.util.UUID;
+import javax.persistence.*;
 
+/**
+ * @author dlgusrb0808@gmail.com
+ */
 @Entity
-public class Scrap {
-
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    private UUID id;
+@Table(name = "scrap")
+public class ScrapEntity extends BaseEntity {
 
     @Column
     private String url;
@@ -20,22 +15,15 @@ public class Scrap {
     @Column
     private String title;
 
-    @Column
+    @Column(length = 512)
     private String description;
 
     @Column
     private String image;
 
-    @Column
-    private Date createAt;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    @ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "scraped_user_id")
+    private UserEntity scrapedUser;
 
     public String getUrl() {
         return url;
@@ -69,11 +57,4 @@ public class Scrap {
         this.image = image;
     }
 
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
 }

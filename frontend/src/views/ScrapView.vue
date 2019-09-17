@@ -44,7 +44,7 @@ export default {
     findScraps: function() {
       Scraps.list().then(response => {
         this.scraps = response.data.body;
-      });
+      })
     },
     addScrap: function() {
       if (!this.scrapUrl) {

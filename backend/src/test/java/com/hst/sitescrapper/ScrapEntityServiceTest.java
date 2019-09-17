@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ScrapServiceTest {
+public class ScrapEntityServiceTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

@@ -2,8 +2,20 @@
 server:
   port: 8000
 
-# h2 settings
+# security
+security:
+
+# database settings
 spring:
-  h2:
-    console:
-      enabled: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/site_scrapper
+    username: root
+    password: cjsrn1992!
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  jwt:
+    secret-key: HYUNGYU.LEE_SECRET!!
