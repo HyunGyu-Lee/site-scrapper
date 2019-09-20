@@ -1,6 +1,6 @@
 package com.hst.sitescrapper.service;
 
-import com.hst.sitescrapper.exception.ServiceException;
+import com.hst.sitescrapper.model.exception.ServiceException;
 import com.hst.sitescrapper.model.entity.ScrapEntity;
 import com.hst.sitescrapper.model.request.ScrapRequest;
 import com.hst.sitescrapper.model.response.MetaDataResponse;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service

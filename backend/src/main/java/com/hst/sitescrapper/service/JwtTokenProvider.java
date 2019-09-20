@@ -1,23 +1,23 @@
 package com.hst.sitescrapper.service;
 
+import com.hst.sitescrapper.constants.GlobalConstants;
+import com.hst.sitescrapper.utils.TimeUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.Base64;
 import java.util.Date;
 
 /**
- * 인증 flow
- * -> 로그인 성공 시 JWT subject 에 인증한 사용자의 id (userId) 정보 저장
- * -> 토큰 파싱하여 userId 획득 -> DB 에서 사용자 정보 조
- *
  * @author dlgusrb0808@gmail.com
  */
 @Service
@@ -28,7 +28,7 @@ public class JwtTokenProvider {
 	private final String secretKey;
 
 	public JwtTokenProvider(@Value("${spring.jwt.secret-key}") String secretKey) {
-		this.secretKey = secretKey;
+		this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 
 	/***
@@ -44,30 +44,45 @@ public class JwtTokenProvider {
 		claims.put("data", data);
 
 		return Jwts.builder()
-				.setExpiration(Date.from(now.plusDays(1).atZone(ZoneId.systemDefault()).toInstant()))
-				.setClaims(claims)
+				.setClaims(claims)	// claims 세팅을 위에서 해주는게 중요
+				.setIssuedAt(TimeUtils.toDate(now))
+				.setExpiration(TimeUtils.toDate(now.plusDays(1)))
 				.signWith(SignatureAlgorithm.HS256, this.secretKey)
 				.compact();
 	}
 
 	/***
-	 * 토큰 -> Object 로 변환
-	 * @param token JWT token
-	 * @return payload 내 실 데이터
+	 * JWT Token 에서 userId 획득
+	 * @param token JWT Token
+	 * @return 토큰 내 userId
 	 */
-	public Long parseToken(String token) {
-		String userId = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-		return Long.valueOf(userId);
+	public String parseUserId(String token) {
+		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 	}
 
 	/***
-	 * 토큰 유효성 검사
+	 * HTTP 요청에서 JWT Token 획득
+	 * @param request HTTP 요청
+	 * @return JWT 토큰
+	 */
+	public String resolveToken(HttpServletRequest request) {
+		return request.getHeader(GlobalConstants.JWT.AUTHORIZATION_HEADER);
+	}
+
+	/***
+	 * JWT Token 유효성 검사
 	 * @param token JWT token
 	 * @return 유효 여부
 	 */
 	public boolean validateToken(String token) {
 		try {
+			if (StringUtils.isEmpty(token)) {
+				logger.error("The given token is empty!");
+				return false;
+			}
+
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+			logger.info("{}", claims);
 			return !claims.getBody().getExpiration().before(new Date());
 		} catch (Exception e) {
 			logger.error(String.format("Invalid Token %s", token), e);

@@ -1,11 +1,9 @@
 package com.hst.sitescrapper.handler;
 
-import com.hst.sitescrapper.exception.ServiceException;
-import com.hst.sitescrapper.exception.UnAuthorizedException;
+import com.hst.sitescrapper.model.exception.ServiceException;
+import com.hst.sitescrapper.model.exception.UnAuthorizedException;
 import com.hst.sitescrapper.model.api.ApiResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

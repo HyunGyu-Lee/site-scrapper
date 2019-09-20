@@ -1,17 +1,14 @@
 package com.hst.sitescrapper.controller;
 
 import com.hst.sitescrapper.model.api.ApiResponse;
-import com.hst.sitescrapper.service.JwtTokenProvider;
+import com.hst.sitescrapper.model.request.SigninRequest;
+import com.hst.sitescrapper.model.request.SignupRequest;
+import com.hst.sitescrapper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.hst.sitescrapper.constants.GlobalConstants.*;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -21,25 +18,18 @@ import static com.hst.sitescrapper.constants.GlobalConstants.*;
 public class AuthController {
 
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
+	private UserService userService;
 
-	@PostMapping("sign-in")
-	public ApiResponse<String> signin(@RequestBody  SigninRequest signinRequest) {
-		// TODO DB 에서 User 조회 -> Password 대조 작업
-		Map<String, Object> tempUser = new HashMap<>();
-		tempUser.put("id", signinRequest.id);
-		tempUser.put("password", signinRequest.password);
-		tempUser.put("name", "HyunGyu-Lee");
-
-		Long id = 9291891239L;
-
-		String token = jwtTokenProvider.createToken(id, "");
-		return new ApiResponse<>(token);
+	@PostMapping("/signin")
+	public ApiResponse<String> signin(@RequestBody SigninRequest request) {
+		String authorizedToken = userService.signin(request);
+		return new ApiResponse<>(authorizedToken);
 	}
 
-	public static class SigninRequest {
-		private String id;
-		private String password;
+	@PostMapping("/signup")
+	public ApiResponse signup(@RequestBody SignupRequest request) {
+		userService.signup(request);
+		return new ApiResponse();
 	}
 
 }

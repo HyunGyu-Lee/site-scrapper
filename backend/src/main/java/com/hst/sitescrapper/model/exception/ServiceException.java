@@ -1,4 +1,4 @@
-package com.hst.sitescrapper.exception;
+package com.hst.sitescrapper.model.exception;
 
 public class ServiceException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package com.hst.sitescrapper.exception;
+package com.hst.sitescrapper.model.exception;
 
 /**
  * @author dlgusrb0808@gmail.com
