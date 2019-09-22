@@ -1,34 +1,44 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 import Auth from '@/api/auth'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    accessToken: '',
-    authenticated: false
-  }, 
-  mutations: { 
-    USER_LOGINED (state, {accessToken}) {
-      state.accessToken = accessToken;
-      state.authenticated = true;
+    state: {
+        accessToken: '',
+        authenticated: false
+    },
+    mutations: {
+        USER_LOGINED(state, { accessToken }) {
+            state.accessToken = accessToken;
+            state.authenticated = true;
+        },
+        USER_LOGOUT(state) {
+            state.accessToken = '';
+            state.authenticated = false;
+        }
+    },
+    actions: {
+        LOGIN({ commit }, { id, password }) {
+            return new Promise(function (resolve, reject) {
+                Auth.login(id, password).then(response => {
+                    commit('USER_LOGINED', response.data.body);
+                    Auth.authorize(response.data.body);
+                    resolve();
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        LOGOUT({ commit }) {
+            commit('USER_LOGOUT')
+            Auth.unauthorize();
+        }
+    },
+    getters: {
+        isAuthorized(state) {
+            return state.authenticated;
+        }
     }
-  },
-  actions: {
-    LOGIN ({commit}, {id, password}) {
-      return Auth.login(id, password)
-        .then(response => {
-          commit('USER_LOGINED', response.data.body)
-          axios.defaults.headers.common['X-AUTH-TOKEN'] = `${response.data.body}`;
-        })
-        .catch(e => console.error(e));
-    }
-  },
-  getters: {
-    isAuthorized(state) {
-      return state.authenticated;
-    }
-  }
 })

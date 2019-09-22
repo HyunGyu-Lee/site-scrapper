@@ -9,7 +9,9 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>나하나쯤이야</v-list-item-title>
-            <v-list-item-subtitle>로그아웃</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              <v-btn text @click="logout">로그아웃</v-btn>
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>
@@ -55,6 +57,12 @@ export default {
   components: {},
   data: () => ({
     drawer: null
-  })
+  }),
+  methods: {
+    logout() {
+      this.$store.dispatch("LOGOUT");
+      this.$router.push('/login')
+    }
+  }
 };
 </script>
