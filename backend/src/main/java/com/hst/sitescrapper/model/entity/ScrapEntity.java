@@ -57,4 +57,11 @@ public class ScrapEntity extends BaseEntity {
         this.image = image;
     }
 
+    public UserEntity getScrapedUser() {
+        return scrapedUser;
+    }
+
+    public void setScrapedUser(UserEntity scrapedUser) {
+        this.scrapedUser = scrapedUser;
+    }
 }

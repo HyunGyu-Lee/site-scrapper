@@ -1,5 +1,6 @@
 package com.hst.sitescrapper.service;
 
+import com.hst.sitescrapper.model.entity.UserEntity;
 import com.hst.sitescrapper.model.exception.ServiceException;
 import com.hst.sitescrapper.model.entity.ScrapEntity;
 import com.hst.sitescrapper.model.request.ScrapRequest;
@@ -9,6 +10,7 @@ import com.hst.sitescrapper.repository.ScrapRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class ScrapService {
      * @return 슬라이스 목록
      */
     public List<ScrapResponse> findScraps() {
-        return scrapRepository.findAll().stream().map(ScrapResponse::of).collect(Collectors.toList());
+        return scrapRepository.findAllByOrderByIdDesc().stream().map(ScrapResponse::of).collect(Collectors.toList());
     }
 
     /***
@@ -64,7 +66,7 @@ public class ScrapService {
         scrap.setTitle(metaDataResponse.getTitle());
         scrap.setImage(metaDataResponse.getImageUrl());
         scrap.setDescription(metaDataResponse.getDescription());
-
+        scrap.setScrapedUser((UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         scrapRepository.save(scrap);
     }
 

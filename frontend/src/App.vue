@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- Left Drawer -->
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer v-model="drawer" app clipped v-if="this.$store.getters.isAuthorized">
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar>
