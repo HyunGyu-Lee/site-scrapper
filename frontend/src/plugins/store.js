@@ -21,7 +21,7 @@ export default new Vuex.Store({
       return Auth.login(id, password)
         .then(response => {
           commit('USER_LOGINED', response.data.body)
-          axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.body}`;
+          axios.defaults.headers.common['X-AUTH-TOKEN'] = `${response.data.body}`;
         })
         .catch(e => console.error(e));
     }
