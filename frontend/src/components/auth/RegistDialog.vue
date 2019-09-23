@@ -26,7 +26,7 @@
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12">
-                            <v-text-field                            
+                            <v-text-field
                                 v-model="registrationData.email"
                                 label="Email"
                                 prepend-icon="mdi-email"
@@ -59,9 +59,9 @@ export default {
     },
     data: () => ({
         registrationData: {
-            id: '',
-            password: '',
-            email: ''
+            id: "",
+            password: "",
+            email: ""
         },
         emailVerification: {
             isVerified: false
@@ -70,11 +70,11 @@ export default {
     }),
     computed: {
         dialogShow: {
-            set: function (newVal) {
-                this.$emit('input', newVal)
+            set: function(newVal) {
+                this.$emit("input", newVal);
             },
-            get: function () {
-                return this.value
+            get: function() {
+                return this.value;
             }
         }
     },

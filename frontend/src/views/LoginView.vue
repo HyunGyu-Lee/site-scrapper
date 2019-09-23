@@ -1,63 +1,43 @@
 <template>
     <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-            <v-col cols="12" sm="8" md="4">
-                <v-card class="elevation-12">
-                    <v-toolbar color="primary" dark flat>
-                        <v-toolbar-title>로그인</v-toolbar-title>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-form ref="form" lazy-validation>
-                            <v-text-field v-model="id" label="Account" prepend-icon="mdi-account" required></v-text-field>
-                            <v-text-field
-                                v-model="password"
-                                prepend-icon="mdi-lock"
-                                :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-                                :type="passwordShow ? 'text' : 'password'"
-                                label="Password"
-                                @click:append="passwordShow = !passwordShow"
-                            ></v-text-field>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <div class="flex-grow-1"></div>
-                        <v-btn color="success" class="mr-4" @click="openRegistDialog()">가입</v-btn>
-                        <v-btn color="primary" class="mr-4" @click="tryLogin()">로그인</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-col>
-        </v-row>
-        <v-snackbar v-model="loginErrorShow" top vertical>
-            로그인에 실패하였습니다.
-            <v-btn dark text @click="loginErrorShow = false">닫기</v-btn>
-        </v-snackbar>
-        <regist-dialog v-model="registDialogShow"></regist-dialog>
+        <v-layout text-center wrap>
+            <v-flex xs12 class="d-flex align-center">
+                <v-img src="@/assets/logo_3.png" class="my-3" contain height="200"></v-img>
+            </v-flex>
+            <login-form 
+                v-on:open-regist-dialog="openRegistDialog"
+                v-on:login-error="processLoginError"
+                v-on:login-success="processLoginSuccess"
+            ></login-form>
+            <v-snackbar v-model="loginErrorShow" top vertical>
+                {{loginFailMessage}}
+                <v-btn dark text @click="loginErrorShow = false">닫기</v-btn>
+            </v-snackbar>
+            <regist-dialog v-model="registDialogShow"></regist-dialog>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
+import LoginForm from '@/components/auth/LoginForm'
 import RegistDialog from '@/components/auth/RegistDialog'
 
 export default {
-    components: {RegistDialog},
+    components: { LoginForm, RegistDialog },
     data: () => ({
-        id: "",
-        password: "",
-        passwordShow: false,
         loginErrorShow: false,
+        loginFailMessage: '로그인에 실패하였습니다.',
         registDialogShow: false
     }),
     methods: {
         openRegistDialog() {
             this.registDialogShow = true;
         },
-        tryLogin() {
-            this.$store
-                .dispatch("LOGIN", { id: this.id, password: this.password })
-                .then(() => this.goScrapView())
-                .catch(() => (this.loginErrorShow = true));
+        processLoginError(e) {
+            this.loginErrorShow = true;
+            console.dir(e);
         },
-        goScrapView() {
+        processLoginSuccess() {
             if (this.$store.getters.isAuthorized) {
                 this.$router.push("/scraps");
             }
