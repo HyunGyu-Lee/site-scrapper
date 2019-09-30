@@ -38,7 +38,6 @@
     <!-- Navigation Bar -->
     <v-app-bar app clipped-left color="blue darken-3" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Site Scrapper</v-toolbar-title>
     </v-app-bar>
     <!-- Content -->
     <v-content>
