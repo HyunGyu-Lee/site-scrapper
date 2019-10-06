@@ -8,7 +8,8 @@ public class GlobalConstants {
 	 * JWT 인증 관련 상수
 	 */
 	public static final class JWT {
-		public static final String AUTHORIZATION_HEADER = "X-AUTH-TOKEN";
+		public static final String AUTHORIZATION_HEADER = "Authorization";
+		public static final String Bearer = "Bearer";
 	}
 
 	/***

@@ -66,7 +66,15 @@ public class JwtTokenProvider {
 	 * @return JWT 토큰
 	 */
 	public String resolveToken(HttpServletRequest request) {
-		return request.getHeader(GlobalConstants.JWT.AUTHORIZATION_HEADER);
+		String token = request.getHeader(GlobalConstants.JWT.AUTHORIZATION_HEADER);
+		if (StringUtils.isEmpty(token)) {
+			logger.error("The given token is empty!");
+			return null;
+		} else if (!token.startsWith(GlobalConstants.JWT.Bearer)) {
+			logger.error("The given token is not bearer type!");
+			return null;
+		}
+		return token.substring(GlobalConstants.JWT.Bearer.length() + 1);
 	}
 
 	/***
@@ -80,7 +88,6 @@ public class JwtTokenProvider {
 				logger.error("The given token is empty!");
 				return false;
 			}
-
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 			logger.info("{}", claims);
 			return !claims.getBody().getExpiration().before(new Date());
