@@ -30,9 +30,6 @@
                                 v-model="registrationData.email"
                                 label="Email"
                                 prepend-icon="mdi-email"
-                                append-icon="mdi-send"
-                                @click:append="sendVerificationEmail()"
-                                :disabled="emailVerification.isVerified == true"
                                 required
                             ></v-text-field>
                         </v-col>
@@ -63,9 +60,6 @@ export default {
             password: "",
             email: ""
         },
-        emailVerification: {
-            isVerified: false
-        },
         passwordShow: false
     }),
     computed: {
@@ -80,15 +74,7 @@ export default {
     },
     methods: {
         regist() {
-            if (this.emailVerification.isVerified) {
-                // TODO / 이현규 / 가입처리
-            } else {
-                // TODO / 이현규 / 이메일 인증필요 alert 노출
-            }
-        },
-        sendVerificationEmail() {
-            // TODO / 이현규 / 인증메일 전송 API 호출
-            this.emailVerification.isVerified = true;
+            // TODO 1차 가입 처리 및 이메일 인증단계로 전환
         }
     }
 };
