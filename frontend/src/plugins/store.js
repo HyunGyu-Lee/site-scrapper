@@ -9,15 +9,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     plugins: [createPersistedState()],
     state: {
+        user: {},
         accessToken: '',
         authenticated: false
     },
     mutations: {
-        [Const.MUTATIONS.USER_LOGIN] : (state, accessToken) => {
-            state.accessToken = accessToken;
+        [Const.MUTATIONS.USER_LOGIN] : (state, signinInfo) => {
+            state.user = signinInfo.user;
+            state.accessToken = signinInfo.authorizedToken;
             state.authenticated = true;
         },
         [Const.MUTATIONS.USER_LOGOUT] : (state) => {
+            state.user = {};
             state.accessToken = '';
             state.authenticated = false;
         }
@@ -43,6 +46,9 @@ export default new Vuex.Store({
         },
         isAuthorized(state) {
             return state.authenticated;
+        },
+        loginUser(state) {
+            return state.user;
         }
     }
 })

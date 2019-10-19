@@ -2,6 +2,7 @@ package com.hst.sitescrapper.service;
 
 import com.hst.sitescrapper.model.response.MetaDataResponse;
 import com.hst.sitescrapper.type.MetadataType;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,13 +14,21 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Component
 public class MetadataReader {
 
     private Logger log = LoggerFactory.getLogger(MetadataReader.class);
 
+    private Pattern URL_PATTERN = Pattern.compile("/[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b" +
+            "([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?/gi");
+
     public MetaDataResponse read(String requestUrl) throws IOException {
+        if (StringUtils.isEmpty(requestUrl) || !URL_PATTERN.matcher(requestUrl).matches()) {
+            throw new IllegalArgumentException("request url is invalid");
+        }
+
         Document document = getWebsiteDocument(requestUrl);
         Elements metaTags = document.getElementsByTag("meta");
         Map<String, String> ogMeta = new HashMap<>();

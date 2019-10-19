@@ -54,6 +54,8 @@ export default {
       
       Scraps.create({ url: this.scrapUrl }).then(() => {
         this.findScraps();
+      }, (error) => {
+        alert(error.response.data.header.message)
       });
 
       this.scrapUrl = '';

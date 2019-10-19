@@ -5,6 +5,7 @@ import com.hst.sitescrapper.model.entity.UserEntity;
 import com.hst.sitescrapper.model.exception.UnAuthorizedException;
 import com.hst.sitescrapper.model.request.SigninRequest;
 import com.hst.sitescrapper.model.request.SignupRequest;
+import com.hst.sitescrapper.model.response.SigninResponse;
 import com.hst.sitescrapper.model.response.UserResponse;
 import com.hst.sitescrapper.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,12 +65,16 @@ public class UserService implements UserDetailsService {
 	 * @param signinRequest 인증 요청
 	 * @return 인증된 토큰
 	 */
-	public String signin(SigninRequest signinRequest) {
+	public SigninResponse signin(SigninRequest signinRequest) {
 		UserEntity user = getUserByLoginId(signinRequest.getLoginId());
 		if (!passwordEncoder.matches(signinRequest.getLoginPassword(), user.getLoginPassword())) {
 			throw new UnAuthorizedException("Password is incorrect");
 		}
-		return jwtTokenProvider.createToken(user.getId(), UserResponse.convert(user));
+
+		UserResponse userResponse = UserResponse.convert(user);
+		String authorizedToken = jwtTokenProvider.createToken(user.getId(), userResponse);
+
+		return SigninResponse.of(authorizedToken, userResponse);
 	}
 
 	/***

@@ -8,7 +8,7 @@
             <img src="https://randomuser.me/api/portraits/men/1.jpg">
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>나하나쯤이야</v-list-item-title>
+            <v-list-item-title>@{{loginUserInfo.name}}</v-list-item-title>
             <v-list-item-subtitle>
               <v-btn text @click="logout">로그아웃</v-btn>
             </v-list-item-subtitle>
@@ -55,8 +55,12 @@ export default {
   name: "App",
   components: {},
   data: () => ({
-    drawer: null
+    drawer: null,
+    loginUserInfo: {}
   }),
+  created() {
+    this.loginUserInfo = this.$store.getters.loginUser;
+  },
   methods: {
     logout() {
       this.$store.dispatch("LOGOUT");

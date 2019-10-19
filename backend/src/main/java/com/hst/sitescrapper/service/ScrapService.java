@@ -46,16 +46,13 @@ public class ScrapService {
      * @param scrapRequest 등록 요청
      */
     public void createScrap(ScrapRequest scrapRequest) {
-        // Todo Check Request is valid
-
         String scrapUrl = scrapRequest.getUrl();
         MetaDataResponse metaDataResponse;
 
-        // todo MetadataReader
         try {
             metaDataResponse = metadataReader.read(scrapUrl);
             log.info("{}", metaDataResponse);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("open graph meta data read fail", e);
             throw new ServiceException("웹 사이트 메타데이터 분석에 실패했습니다.");
         }

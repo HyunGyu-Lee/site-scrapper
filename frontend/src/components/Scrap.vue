@@ -1,13 +1,12 @@
 <template>
   <v-card>
-    <v-img class="white--text" height="200px" :src="scrap.image">
-      <v-card-title class="align-end fill-height">
+    <v-img v-if="presentImage(scrap.image)" class="white--text" height="255px" :src="scrap.image"></v-img>
+    <v-divider></v-divider>
+    <v-subheader>
         <span class="title text-truncate">
           <strong>{{scrap.title}}</strong>
         </span>
-      </v-card-title>
-    </v-img>
-    <v-divider></v-divider>
+    </v-subheader>
     <v-card-text>
       <span v-text="scrap.description"></span>
       <v-btn icon @click="showDetails = !showDetails">
@@ -59,6 +58,9 @@ export default {
   methods: {
     dateFormat: function(dateString) {
       return this.$moment(dateString).format("YYYY-MM-DD HH:mm:ss");
+    },
+    presentImage: function () {
+      return this.scrap.image
     }
   }
 };

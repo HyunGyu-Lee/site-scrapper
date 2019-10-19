@@ -3,6 +3,7 @@ package com.hst.sitescrapper.controller;
 import com.hst.sitescrapper.model.api.ApiResponse;
 import com.hst.sitescrapper.model.request.SigninRequest;
 import com.hst.sitescrapper.model.request.SignupRequest;
+import com.hst.sitescrapper.model.response.SigninResponse;
 import com.hst.sitescrapper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +22,8 @@ public class AuthController {
 	private UserService userService;
 
 	@PostMapping("/signin")
-	public ApiResponse<String> signin(@RequestBody SigninRequest request) {
-		String authorizedToken = userService.signin(request);
-		return new ApiResponse<>(authorizedToken);
+	public ApiResponse<SigninResponse> signin(@RequestBody SigninRequest request) {
+		return new ApiResponse<>(userService.signin(request));
 	}
 
 	@PostMapping("/signup")
