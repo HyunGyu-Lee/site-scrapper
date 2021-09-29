@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-open class BaseTimeEntity: BaseEntity() {
+open class BaseTimeEntity : BaseEntity() {
 
     @CreatedDate
     @Column
@@ -21,7 +21,7 @@ open class BaseTimeEntity: BaseEntity() {
         private set
 
     @LastModifiedDate
-    @Column(name = "MO")
+    @Column
     var modifiedAt: LocalDateTime = LocalDateTime.MIN
         private set
 }

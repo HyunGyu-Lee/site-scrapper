@@ -11,4 +11,6 @@ interface UserRepository {
     fun findByEmail(email: String): User?
 
     fun findByLoginId(loginId: String): User?
+
+    fun save(user: User): User
 }

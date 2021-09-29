@@ -53,4 +53,15 @@ class User : BaseTimeEntity(), UserDetails {
     override fun isCredentialsNonExpired() = false
 
     override fun isEnabled() = true
+
+    companion object {
+        fun createUser(loginId: String, loginPassword: String, email: String, name: String): User {
+            val user = User()
+            user.loginId = loginId
+            user.loginPassword = loginPassword
+            user.email = email
+            user.name = name
+            return user
+        }
+    }
 }

@@ -1,0 +1,9 @@
+POST http://localhost:8000/api/users/signup
+Content-Type: application/json
+
+{
+  "loginId": "admin",
+  "loginPassword": "1234",
+  "email": "admin123@gmail.com",
+  "name": "관리자"
+}

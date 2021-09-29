@@ -16,22 +16,21 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 
     companion object {
         private val PUBLIC_APIS: Array<String> = arrayOf(
-            "/api/auth/signin", "/api/auth/signup", "/system/exception-entry"
+            "/api/users/signin", "/api/users/signup", "/system/exception-entry"
         )
     }
 
     override fun configure(http: HttpSecurity) {
-        http
-            .httpBasic()
-                .disable()
+        http.httpBasic()
+            .disable()
             .csrf()
-                .disable()
+            .disable()
             .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
             .authorizeRequests()
-                .antMatchers(*PUBLIC_APIS).permitAll()
-                .anyRequest().hasRole("USER")
+            .antMatchers(*PUBLIC_APIS).permitAll()
+            .anyRequest().hasRole("USER")
 
     }
 
