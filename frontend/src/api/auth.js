@@ -11,6 +11,6 @@ axios.interceptors.request.use((config) => {
 
 export default {
     login(loginId, loginPassword) {
-        return axios.post('/api/auth/signin', {loginId, loginPassword})
+        return axios.post('/api/users/signin', {loginId, loginPassword})
     }
 }

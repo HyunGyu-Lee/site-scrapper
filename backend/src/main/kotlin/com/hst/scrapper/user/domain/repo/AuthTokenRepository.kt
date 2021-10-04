@@ -14,4 +14,6 @@ interface AuthTokenRepository {
 
     fun isValidToken(token: String?): Boolean
 
+    fun getUserIdFromToken(token: String): Long
+
 }

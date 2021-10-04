@@ -61,6 +61,7 @@ class User : BaseTimeEntity(), UserDetails {
             user.loginPassword = loginPassword
             user.email = email
             user.name = name
+            user.roles = setOf("ROLE_USER")
             return user
         }
     }

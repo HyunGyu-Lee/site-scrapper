@@ -1,0 +1,2 @@
+GET http://localhost:8000/api/scraps?userId=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiaWF0IjoxNjMzMjczMjAwLCJleHAiOjE2MzMzNTk2MDB9.ceEN4xXU1Fw1L8oBpSiPpLWMkGsG3GB77wp-D3v6xYk

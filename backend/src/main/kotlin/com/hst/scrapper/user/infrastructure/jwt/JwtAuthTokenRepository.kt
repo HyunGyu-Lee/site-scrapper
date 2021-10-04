@@ -1,8 +1,8 @@
 package com.hst.scrapper.user.infrastructure.jwt
 
-import com.hst.scrapper.user.domain.repo.AuthTokenRepository
-import com.hst.scrapper.user.domain.entity.User
 import com.hst.scrapper.global.utils.*
+import com.hst.scrapper.user.domain.entity.User
+import com.hst.scrapper.user.domain.repo.AuthTokenRepository
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.slf4j.LoggerFactory
@@ -33,7 +33,7 @@ class JwtAuthTokenRepository(
 
     override fun getToken(request: HttpServletRequest): String? {
         val token = request.getHeader(AUTHORIZATION_HEADER)
-        if (token.isBlank()) {
+        if (token == null || token.isBlank()) {
             log.warn("Authorization Token is empty")
             return null
         } else if (!token.startsWith(TOKEN_TYPE)) {
@@ -48,7 +48,15 @@ class JwtAuthTokenRepository(
             return false
         }
         val claims = Jwts.parser().setSigningKey(jwtProperties.secretKey).parseClaimsJws(token)
-        return claims.body.expiration.before(Date())
+        return claims.body.expiration.after(Date())
+    }
+
+    override fun getUserIdFromToken(token: String): Long {
+        return Jwts.parser()
+            .setSigningKey(jwtProperties.secretKey)
+            .parseClaimsJws(token)
+            .body.subject
+            .toLong()
     }
 
     companion object {

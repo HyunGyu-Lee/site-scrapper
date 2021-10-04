@@ -3,7 +3,7 @@ package com.hst.scrapper.global.exception
 import org.springframework.http.HttpStatus
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 open class BaseException(
     val status: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR, override val message: String = ""

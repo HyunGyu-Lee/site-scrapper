@@ -35,6 +35,13 @@ class UserService(
     }
 
     /**
+     * [id]에 해당하는 유저 조회
+     */
+    fun getUser(id: Long): User {
+        return userRepository.findById(id) ?: throw UserNotFoundException().addAttribute("id", id)
+    }
+
+    /**
      * ID, Password 기반 인증
      */
     fun signin(request: SigninRequest): SigninResponse {

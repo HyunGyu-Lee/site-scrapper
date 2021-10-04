@@ -6,13 +6,14 @@ import com.hst.scrapper.user.domain.entity.User
  * @author dlgusrb0808@gmail.com
  */
 data class UserResponse(
-    val id: String,
+    val id: Long,
+    val loginId: String,
     val email: String,
     val name: String
 ) {
     companion object {
         fun fromEntity(entity: User): UserResponse {
-            return UserResponse(entity.loginId, entity.email, entity.name)
+            return UserResponse(entity.id, entity.loginId, entity.email, entity.name)
         }
     }
 }

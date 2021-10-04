@@ -42,7 +42,8 @@ export default {
   },
   methods: {
     findScraps: function() {
-      Scraps.list().then(response => {
+      Scraps.list(this.$store.getters.loginUser.id).then(response => {
+        console.log(response.data)
         this.scraps = response.data.body;
       })
     },
