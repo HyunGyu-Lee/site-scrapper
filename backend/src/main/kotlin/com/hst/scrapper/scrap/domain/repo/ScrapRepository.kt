@@ -12,4 +12,6 @@ interface ScrapRepository {
     fun save(scrap: Scrap): Scrap
 
     fun findByScrapedUserOrderByIdDesc(user: User): List<Scrap>
+
+    fun delete(scrap: Scrap)
 }

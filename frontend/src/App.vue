@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    {{loginUserInfo}}
     <!-- Left Drawer -->
     <v-navigation-drawer v-model="drawer" app clipped v-if="this.$store.getters.isAuthorized">
       <template v-slot:prepend>
@@ -27,7 +28,7 @@
         </v-list-item>
         <v-list-item to="/settings">
           <v-list-item-action>
-            <v-icon>mdi-settings</v-icon>
+            <v-icon>mdi-widgets</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>설정</v-list-item-title>
@@ -51,15 +52,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: "App",
   components: {},
   data: () => ({
-    drawer: null,
-    loginUserInfo: {}
+    drawer: null
   }),
-  created() {
-    this.loginUserInfo = this.$store.getters.loginUser;
+  computed: {
+    ...mapState({
+      loginUserInfo: 'user'
+    })
   },
   methods: {
     logout() {

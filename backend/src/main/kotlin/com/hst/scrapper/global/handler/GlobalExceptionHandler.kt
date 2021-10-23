@@ -2,6 +2,7 @@ package com.hst.scrapper.global.handler
 
 import com.hst.scrapper.global.exception.BaseException
 import com.hst.scrapper.global.model.api.ApiResponse
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class GlobalExceptionHandler {
 
     @ExceptionHandler(BaseException::class)
-    fun handleBaseException(exception: BaseException): ApiResponse<Map<String, Any>> {
-        return ApiResponse.of(exception.status.value(), exception.message, exception.attribute)
+    fun handleBaseException(exception: BaseException): ResponseEntity<Map<String, Any>> {
+        exception.attribute["message"] = exception.message
+        return ResponseEntity<Map<String, Any>>(exception.attribute, exception.status)
     }
 
 }

@@ -4,6 +4,7 @@ import router from './plugins/router'
 import store from './plugins/store'
 import vuetify from './plugins/vuetify';
 import moment from 'moment';
+import 'moment/locale/ko'
 import VueMomentJS from 'vue-momentjs';
 
 Vue.config.productionTip = false

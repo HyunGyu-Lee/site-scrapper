@@ -11,14 +11,14 @@
         </v-text-field>
       </v-col>      
     </v-row>
-    <v-row align="start" justify="center">
-      <v-col cols="12" sm="8" md="6">
+    <v-row align="start" justify="start">
+      <v-col cols="12" sm="8" md="6"> 
         <h3><v-icon>mdi-widgets</v-icon> 내 스크랩</h3>
       </v-col>
     </v-row>    
-    <v-row align="start" justify="center" v-for="scrap in scraps" :key="scrap.id">
-      <v-col cols="12" sm="8" md="6">
-        <scrap :scrap="scrap"></scrap>
+    <v-row align="start" justify="start">
+      <v-col cols="3" v-for="scrap in scraps" :key="scrap.id">
+        <scrap :scrap="scrap" v-on:delete="deleteScrap"></scrap>
       </v-col>
     </v-row>
   </v-container>
@@ -41,25 +41,28 @@ export default {
     this.findScraps();
   },
   methods: {
-    findScraps: function() {
+    findScraps() {
       Scraps.list(this.$store.getters.loginUser.id).then(response => {
         console.log(response.data)
         this.scraps = response.data.body;
       })
     },
-    addScrap: function() {
+    addScrap() {
       if (!this.scrapUrl) {
         alert('URL 을 입력하세요');
         return;
       }
-      
-      Scraps.create({ url: this.scrapUrl }).then(() => {
+      Scraps.create({ url: this.scrapUrl, userId: this.$store.getters.loginUser.id }).then(() => {
         this.findScraps();
       }, (error) => {
-        alert(error.response.data.header.message)
+        console.dir(error)
       });
 
       this.scrapUrl = '';
+    },
+    async deleteScrap(scrapId) {
+      await Scraps.delete(scrapId)
+      this.findScraps();
     }
   }
 };

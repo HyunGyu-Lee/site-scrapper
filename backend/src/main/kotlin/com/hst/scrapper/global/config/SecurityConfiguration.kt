@@ -6,6 +6,7 @@ import com.hst.scrapper.user.domain.repo.AuthTokenRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
@@ -24,6 +25,10 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
         )
     }
 
+    override fun configure(web: WebSecurity) {
+        web.ignoring().antMatchers(*PUBLIC_APIS)
+    }
+
     override fun configure(http: HttpSecurity) {
         http.httpBasic()
             .disable()
@@ -33,7 +38,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            .antMatchers(*PUBLIC_APIS).permitAll()
+//            .antMatchers(*PUBLIC_APIS).permitAll()
             .anyRequest().hasRole("USER")
             .and()
             .addFilterBefore(jwtAuthenticationFilter(null, null), UsernamePasswordAuthenticationFilter::class.java)

@@ -29,4 +29,16 @@ class Scrap : BaseTimeEntity() {
     @ManyToOne
     @JoinColumn(name = "scraped_user_id")
     var scrapedUser: User? = null
+
+    companion object {
+        fun createScrap(url: String, title: String, description: String, image: String, scrapedUser: User?): Scrap {
+            val scrap = Scrap()
+            scrap.url = url
+            scrap.title = title
+            scrap.description = description
+            scrap.image = image
+            scrap.scrapedUser = scrapedUser
+            return scrap
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-img v-if="presentImage(scrap.image)" class="white--text" height="255px" :src="scrap.image"></v-img>
+    <v-img v-if="presentImage(scrap.image)" class="white--text" height="220" :src="scrap.image"></v-img>
     <v-divider></v-divider>
     <v-subheader>
         <span class="title text-truncate">
@@ -8,38 +8,27 @@
         </span>
     </v-subheader>
     <v-card-text>
-      <span v-text="scrap.description"></span>
-      <v-btn icon @click="showDetails = !showDetails">
-        <v-icon>{{showDetails ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
-      </v-btn>
+      <span v-text="description"></span>
     </v-card-text>
-    <v-expand-transition>
-      <div v-show="showDetails">
-        <v-card-text>
-          <span class="caption">
-            <strong>SOURCE URL</strong>
-          </span>
-          <br />
-          <span v-text="scrap.url"></span>
-          <br />
-          <br />
-          <span class="caption">
-            <strong>SCRAPED AT</strong>
-          </span>
-          <br />
-          <span class="overline" v-text="dateFormat(scrap.createdAt)"></span>
-        </v-card-text>
-      </div>
-    </v-expand-transition>
     <v-divider></v-divider>
     <v-card-actions>
-      <div class="flex-grow-1"></div>
-      <v-btn icon :link="true" :href="scrap.url" target="_blank">
-        <v-icon>mdi-share-variant</v-icon>
-      </v-btn>
-      <v-btn icon :link="true" :href="scrap.url" target="_blank">
-        <v-icon>mdi-launch</v-icon>
-      </v-btn>
+      <v-row dense class="px-1" align="center" justify="end">
+        <v-col cols="4">
+          <small>{{scrapedAt}}</small>
+        </v-col>
+        <v-spacer />
+        <v-col cols="2">
+          <v-btn icon @click.stop="deleteScrap(scrap.id)">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="2">
+          <v-btn icon :link="true" :href="scrap.url" target="_blank">
+            <v-icon>mdi-launch</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+
     </v-card-actions>
   </v-card>
 </template>
@@ -50,17 +39,46 @@ export default {
     scrap: {
       type: Object,
       required: true
+    },
+    descriptionLimit: {
+      type: Number,
+      default: 300
     }
   },
   data: () => ({
     showDetails: false
   }),
+  computed: {
+    description() {
+      if (this.getLength(this.scrap.description) > this.descriptionLimit) {
+        return `${this.scrap.description.substring(0, this.descriptionLimit)}...`
+      } else {
+        return this.scrap.description
+      }
+    },
+    scrapedAt() {
+      return this.$moment(this.scrap.createdAt).fromNow()
+    }
+  },
   methods: {
     dateFormat: function(dateString) {
       return this.$moment(dateString).format("YYYY-MM-DD HH:mm:ss");
     },
     presentImage: function () {
       return this.scrap.image
+    },
+    getLength(text) {
+      var len = 0;
+      for (var i = 0; i < text.length; i++) {
+          if (escape(text.charAt(i)).length == 6) {
+              len++;
+          }
+          len++;
+      }
+      return len;
+    },
+    deleteScrap(scrapId) {
+      this.$emit('delete', scrapId);
     }
   }
 };
