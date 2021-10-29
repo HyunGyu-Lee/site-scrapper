@@ -48,6 +48,17 @@
     <v-footer app>
       <span>&copy; Team HST. All rights reserved.</span>
     </v-footer>
+
+    <!-- Global Notification Message -->
+    <v-snackbar v-model="alerts.visible" top multi-line :timeout="alerts.timeout">
+      {{alerts.message}}
+      <v-btn dark text @click="alerts.visible = false">Close</v-btn>
+    </v-snackbar>
+
+    <!-- Global Loading Overay -->
+    <v-overlay :value="loading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -58,14 +69,36 @@ export default {
   name: "App",
   components: {},
   data: () => ({
-    drawer: null
+    drawer: null,
+    alerts: {
+      message: '',
+      visible: false,
+      timeout: 2000
+    },
+    loading: false
   }),
   computed: {
     ...mapState({
       loginUserInfo: 'user'
     })
   },
+  created() {
+    this.activeToastMessage();
+    this.activeLoadingBar();
+  },
   methods: {
+    activeToastMessage() {
+      this.$app.EventBus.$on('toast', (message) => {
+        this.alerts.visible = false
+        this.alerts.message = message
+        this.alerts.visible = true
+      })
+    },
+    activeLoadingBar() {
+      this.$app.EventBus.$on('setLoadingState', (loadingState) => {
+        this.loading = loadingState
+      });
+    },
     logout() {
       this.$store.dispatch("LOGOUT");
       this.$router.push('/login')

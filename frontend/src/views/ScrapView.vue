@@ -37,30 +37,36 @@ export default {
     scrapUrl: '',
     scraps: []
   }),
-  created() {
+  created() {    
     this.findScraps();
   },
   methods: {
     findScraps() {
+      this.$app.startLoading();
       Scraps.list(this.$store.getters.loginUser.id).then(response => {
-        console.log(response.data)
         this.scraps = response.data.body;
+        this.$app.finishLoading();
       })
     },
-    addScrap() {
+    addScrap() {      
       if (!this.scrapUrl) {
-        alert('URL 을 입력하세요');
+        this.$app.toast('URL을 정확히 입력하세요!');
         return;
       }
+      this.$app.startLoading();
       Scraps.create({ url: this.scrapUrl, userId: this.$store.getters.loginUser.id }).then(() => {
+        this.$app.finishLoading();
         this.findScraps();
       }, (error) => {
+        this.$app.toast('스크랩 저장에 실패하였습니다.');
+        this.$app.finishLoading();
         console.dir(error)
       });
 
       this.scrapUrl = '';
     },
     async deleteScrap(scrapId) {
+      this.$app.startLoading();
       await Scraps.delete(scrapId)
       this.findScraps();
     }
