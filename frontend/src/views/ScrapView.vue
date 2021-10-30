@@ -11,15 +11,45 @@
         </v-text-field>
       </v-col>      
     </v-row>
+    <br>
     <v-row align="start" justify="start">
-      <v-col cols="12" sm="8" md="6"> 
-        <h3><v-icon>mdi-widgets</v-icon> 내 스크랩</h3>
+      <v-col cols="2"> 
+        <h2><v-icon>mdi-widgets</v-icon> 내 스크랩</h2>
       </v-col>
-    </v-row>    
-    <v-row align="start" justify="start">
+      <v-spacer></v-spacer>
+      <v-col cols="2" align="right"> 
+        <v-btn-toggle v-model="viewType" mandatory dense>
+          <v-btn>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-btn>
+          <v-btn>
+            <v-icon>mdi-view-list</v-icon>
+          </v-btn>
+          <v-btn>
+            <v-icon>mdi-file-tree</v-icon>
+          </v-btn>
+        </v-btn-toggle>
+      </v-col>
+    </v-row>
+    <!-- Grid View Type -->
+    <v-row v-if="viewTypes[viewType] == 'card'" align="start" justify="start">
       <v-col cols="3" v-for="scrap in scraps" :key="scrap.id">
-        <scrap :scrap="scrap" v-on:delete="deleteScrap"></scrap>
+        <scrap :scrap="scrap" :viewType="viewTypes[viewType]" v-on:delete="deleteScrap"></scrap>
       </v-col>
+    </v-row>
+    <v-row v-if="viewTypes[viewType] == 'list'">      
+      <v-list three-line>
+        <template v-for="scrap in scraps">
+          <scrap :key="scrap.id" :scrap="scrap" :viewType="viewTypes[viewType]" v-on:delete="deleteScrap"></scrap>
+          <v-divider :key="scrap.id + '_'"></v-divider>
+        </template>
+      </v-list>
+    </v-row>
+    <v-row v-if="viewTypes[viewType] == 'folder'">
+      <scrap :scrap="scraps[0]" viewType="card"></scrap>
+    </v-row>
+    <v-row v-if="viewTypes[viewType] == 'tree'">
+      <h1>TREE!!!</h1>
     </v-row>
   </v-container>
 </template>
@@ -35,7 +65,13 @@ export default {
   },
   data: () => ({
     scrapUrl: '',
-    scraps: []
+    scraps: [],
+    viewTypes: {
+      0: 'card',
+      1: 'list',
+      2: 'tree'
+    },
+    viewType: undefined
   }),
   created() {    
     this.findScraps();

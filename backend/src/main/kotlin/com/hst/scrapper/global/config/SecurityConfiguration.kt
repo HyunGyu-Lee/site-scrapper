@@ -3,6 +3,8 @@ package com.hst.scrapper.global.config
 import com.hst.scrapper.global.filter.JwtAuthenticationFilter
 import com.hst.scrapper.user.application.UserService
 import com.hst.scrapper.user.domain.repo.AuthTokenRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -19,6 +21,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 
+    @Autowired
+    lateinit var authTokenRepository: AuthTokenRepository
+
+    @Autowired
+    lateinit var userService: UserService
+
     companion object {
         private val PUBLIC_APIS: Array<String> = arrayOf(
             "/api/users/signin", "/api/users/signup", "/system/exception-entry"
@@ -26,7 +34,9 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     }
 
     override fun configure(web: WebSecurity) {
-        web.ignoring().antMatchers(*PUBLIC_APIS)
+        web.ignoring()
+            .mvcMatchers(*PUBLIC_APIS)
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
     }
 
     override fun configure(http: HttpSecurity) {
@@ -38,21 +48,15 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-//            .antMatchers(*PUBLIC_APIS).permitAll()
             .anyRequest().hasRole("USER")
             .and()
-            .addFilterBefore(jwtAuthenticationFilter(null, null), UsernamePasswordAuthenticationFilter::class.java)
-
+            .addFilterBefore(
+                JwtAuthenticationFilter(authTokenRepository, userService),
+                UsernamePasswordAuthenticationFilter::class.java
+            )
     }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
-
-    @Bean
-    fun jwtAuthenticationFilter(
-        authTokenRepository: AuthTokenRepository?, userService: UserService?
-    ): JwtAuthenticationFilter {
-        return JwtAuthenticationFilter(authTokenRepository!!, userService!!)
-    }
 
 }

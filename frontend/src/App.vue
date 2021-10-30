@@ -41,9 +41,9 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
     <!-- Content -->
-    <v-content>
+    <v-main>
       <router-view></router-view>
-    </v-content>
+    </v-main>
     <!-- Footer -->
     <v-footer app>
       <span>&copy; Team HST. All rights reserved.</span>
