@@ -49,7 +49,22 @@
       <scrap :scrap="scraps[0]" viewType="card"></scrap>
     </v-row>
     <v-row v-if="viewTypes[viewType] == 'tree'">
-      <h1>TREE!!!</h1>
+      <v-treeview 
+        :items="scrapTree" 
+        open-on-click
+        transition
+      >
+        <template v-slot:prepend="{ item }">
+          <v-icon v-if="item.children">
+            mdi-folder
+          </v-icon>
+          <v-img class="rounded-circle" v-if="!item.children"
+            src="https://picsum.photos/id/11/500/300"
+            width="36" height="36"
+          >
+          </v-img>
+        </template>
+      </v-treeview>
     </v-row>
   </v-container>
 </template>
@@ -66,6 +81,23 @@ export default {
   data: () => ({
     scrapUrl: '',
     scraps: [],
+    scrapTree: [
+      {
+        id: 1,
+        name: 'Work',
+        children: [
+          { id: 2, name: 'Sub Work 1' },
+          { id: 3, name: 'Sub Work 2' },          
+        ]
+      },
+      {
+        id: 4,
+        name: 'Application',
+        children: [
+          { id: 5, name: 'Stopwatch App' }
+        ]
+      }
+    ],
     viewTypes: {
       0: 'card',
       1: 'list',
