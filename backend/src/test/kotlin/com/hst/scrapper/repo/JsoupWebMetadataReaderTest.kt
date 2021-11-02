@@ -1,11 +1,8 @@
 package com.hst.scrapper.repo
 
-import com.hst.scrapper.scrap.infrastructure.web.JsoupWebMetadataReader
+import com.hst.scrapper.modules.scrap.infrastructure.web.JsoupWebMetadataReader
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
-import java.net.URLEncoder
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -18,7 +15,7 @@ class JsoupWebMetadataReaderTest {
 
     @Test
     fun `URL 패턴 매치 테스트`() {
-        val webMeta = reader.read("https://spring.io/")
+        val webMeta = reader.read("https://cafe.naver.com/slayergear2/104295")
         with(webMeta) {
             log.info("url: $url")
             log.info("title: $title")

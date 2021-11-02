@@ -28,7 +28,7 @@
         </v-list-item>
         <v-list-item to="/settings">
           <v-list-item-action>
-            <v-icon>mdi-widgets</v-icon>
+            <v-icon>mdi-settings</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>설정</v-list-item-title>

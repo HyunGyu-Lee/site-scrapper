@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="px-15" fluid>
     <v-row align="start" justify="center" class="pt-0 mt-0">
       <v-col cols="12" sm="8" md="6" class="pt-0 pb-0 mt-0 mb-0">
         <v-text-field class="pt-0"
@@ -96,6 +96,13 @@ export default {
         children: [
           { id: 5, name: 'Stopwatch App' }
         ]
+      },
+      {
+        id: -1,
+        name: '미분류',
+        children: [
+          { id: 6, name: '다이어트는 습관이다' }
+        ]
       }
     ],
     viewTypes: {
@@ -125,10 +132,9 @@ export default {
       Scraps.create({ url: this.scrapUrl, userId: this.$store.getters.loginUser.id }).then(() => {
         this.$app.finishLoading();
         this.findScraps();
-      }, (error) => {
+      }, () => {
         this.$app.toast('스크랩 저장에 실패하였습니다.');
         this.$app.finishLoading();
-        console.dir(error)
       });
 
       this.scrapUrl = '';

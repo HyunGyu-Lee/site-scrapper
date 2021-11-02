@@ -1,8 +1,8 @@
 package com.hst.scrapper.global.config
 
 import com.hst.scrapper.global.filter.JwtAuthenticationFilter
-import com.hst.scrapper.user.application.UserService
-import com.hst.scrapper.user.domain.repo.AuthTokenRepository
+import com.hst.scrapper.modules.user.application.UserService
+import com.hst.scrapper.modules.user.domain.repo.AuthTokenRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean

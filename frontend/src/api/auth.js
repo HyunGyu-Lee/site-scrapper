@@ -11,10 +11,12 @@ axios.interceptors.request.use((config) => {
 });
 
 axios.interceptors.response.use((response) => { return response; }, (error) => {
-  store.dispatch("LOGOUT");
-  router.push('/login')
+  if (error.response.status == 403) {
+    store.dispatch("LOGOUT");
+    router.push('/login');
+  }
   return Promise.reject(error);
-})
+});
 
 export default {
     login(loginId, loginPassword) {

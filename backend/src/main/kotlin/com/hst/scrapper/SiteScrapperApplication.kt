@@ -1,6 +1,6 @@
 package com.hst.scrapper
 
-import com.hst.scrapper.user.infrastructure.jwt.JwtProperties
+import com.hst.scrapper.modules.user.infrastructure.jwt.JwtProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication

@@ -1,7 +1,7 @@
 package com.hst.scrapper.global.filter
 
-import com.hst.scrapper.user.application.UserService
-import com.hst.scrapper.user.domain.repo.AuthTokenRepository
+import com.hst.scrapper.modules.user.application.UserService
+import com.hst.scrapper.modules.user.domain.repo.AuthTokenRepository
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
