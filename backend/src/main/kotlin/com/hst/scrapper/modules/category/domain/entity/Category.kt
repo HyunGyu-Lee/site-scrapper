@@ -12,6 +12,7 @@ class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
+        private set
 
     @Column
     var name: String = ""
@@ -19,6 +20,7 @@ class Category {
 
     @Column
     var order: Int = 1
+        private set
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
@@ -29,6 +31,21 @@ class Category {
         private set
 
     @OneToMany(mappedBy = "parentCategory", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var childCategories: Set<Category> = HashSet()
+    @OrderBy("order")
+    var childCategories: Set<Category> = mutableSetOf()
         private set
+
+    fun changeName(name: String) {
+        this.name = name
+    }
+
+    fun changeOrder(order: Int) {
+        this.order = order
+    }
+
+    fun addChild(child: Category) {
+        this.childCategories.plus(child)
+        child.parentCategory = this
+        child.order = this.childCategories.size + 1
+    }
 }

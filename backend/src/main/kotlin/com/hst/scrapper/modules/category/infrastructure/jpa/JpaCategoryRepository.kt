@@ -7,4 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 /**
  * @author dlgusrb0808@gmail.com
  */
-interface JpaCategoryRepository: CategoryRepository, JpaRepository<Category, Long>
+interface JpaCategoryRepository : CategoryRepository, JpaRepository<Category, Long>

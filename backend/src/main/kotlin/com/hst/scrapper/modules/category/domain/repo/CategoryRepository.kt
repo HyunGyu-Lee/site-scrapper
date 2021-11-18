@@ -8,8 +8,14 @@ import com.hst.scrapper.modules.user.domain.entity.User
  */
 interface CategoryRepository {
 
-    fun findByUser(user: User): List<Category>
+    fun findById(id: Long): Category?
+
+    fun findByUserAndParentCategoryIsNullOrderByOrder(user: User): List<Category>
+
+    fun countByUserIdAndParentCategoryIsNull(userId: Long): Long
 
     fun save(category: Category): Category
+
+    fun delete(category: Category)
 
 }
