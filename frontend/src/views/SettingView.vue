@@ -124,7 +124,7 @@ export default {
     async onDialogOk() {
       if (this.dialog.mode != DELETE) {
           if (!this.dialog.input) {
-            alert('이름을 입력하세요');
+            this.$app.toast('카테고리이름을 입력하세요');
             return;
           }
       }

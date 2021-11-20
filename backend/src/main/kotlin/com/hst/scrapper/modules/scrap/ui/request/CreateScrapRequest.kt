@@ -5,5 +5,6 @@ package com.hst.scrapper.modules.scrap.ui.request
  */
 data class CreateScrapRequest(
     val url: String,
-    val userId: Long
+    val userId: Long,
+    val categoryId: Long
 )

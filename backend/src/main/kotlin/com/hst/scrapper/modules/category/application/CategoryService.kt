@@ -20,6 +20,11 @@ class CategoryService(
 ) {
 
     /**
+     * [id] 카테고리 조회
+     */
+    fun getCategory(id: Long) = this.getCategoryEntity(id)
+
+    /**
      * [userId] 유저의 카테고리 목록 조회
      */
     fun getUserCategories(userId: Long): List<CategoryResponse> {

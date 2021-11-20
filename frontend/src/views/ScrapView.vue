@@ -50,7 +50,7 @@
     </v-row>
     <v-row v-if="viewTypes[viewType] == 'tree'">
       <v-treeview 
-        :items="scrapTree" 
+        :items="categories" 
         open-on-click
         transition
       >
@@ -66,12 +66,58 @@
         </template>
       </v-treeview>
     </v-row>
+    <v-dialog v-model="categoryDialog.show" width="500">
+      <v-card>
+        <v-card-title>카테고리 선택</v-card-title>
+        <v-card-text>
+          <v-treeview 
+            :items="categories" 
+            activatable
+            transition
+            dense
+            open-all
+            hoverable
+            @update:active="onActive"
+          >
+            <template v-slot:prepend="{ item, open }">
+              <v-icon v-if="item.children">
+                {{open ? 'mdi-folder-open' : 'mdi-folder'}}
+              </v-icon>
+            </template>
+            <!-- <template v-slot:append="{ item }">             
+              <v-menu close-on-click>
+                <template v-slot:activator="{on, attrs}">
+                  <v-icon v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+                </template>
+                <v-list>
+                  <v-list-item @click="openDialog(item, 'add')" link>       
+                    <v-list-item-title>추가</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item @click="openDialog(item, 'edit')" link>       
+                    <v-list-item-title>이름 변경</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item @click="openDialog(item, 'delete')" link>       
+                    <v-list-item-title>삭제</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </template> -->
+          </v-treeview>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="onDialogClose" text>취소</v-btn>
+          <v-btn @click="onDialogOk" text>확인</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import Scrap from '@/components/Scrap';
 import Scraps from '@/api/scraps';
+import Category from '@/api/category';
 
 export default {
   name: 'scrap-view',
@@ -81,44 +127,37 @@ export default {
   data: () => ({
     scrapUrl: '',
     scraps: [],
-    scrapTree: [
-      {
-        id: 1,
-        name: 'Work',
-        children: [
-          { id: 2, name: 'Sub Work 1' },
-          { id: 3, name: 'Sub Work 2' },          
-        ]
-      },
-      {
-        id: 4,
-        name: 'Application',
-        children: [
-          { id: 5, name: 'Stopwatch App' }
-        ]
-      },
-      {
-        id: -1,
-        name: '미분류',
-        children: [
-          { id: 6, name: '다이어트는 습관이다' }
-        ]
-      }
-    ],
+    categories: [],
     viewTypes: {
       0: 'card',
       1: 'list',
       2: 'tree'
     },
-    viewType: undefined
+    viewType: undefined,
+    categoryDialog: {
+      show: false,
+      selectedCategoryId: 0
+    }
   }),
   created() {    
-    this.findScraps();
+    this.loadUserScraps();
+    this.loadUserCategories();
+  },
+  computed: {
+    userId() {
+      return this.$store.getters.loginUser.id
+    }
   },
   methods: {
-    findScraps() {
+    async loadUserCategories() {
       this.$app.startLoading();
-      Scraps.list(this.$store.getters.loginUser.id).then(response => {
+      let response = await Category.list(this.userId);
+      this.categories = response.data.body;
+      this.$app.finishLoading();
+    },
+    loadUserScraps() {
+      this.$app.startLoading();
+      Scraps.list(this.userId).then(response => {
         this.scraps = response.data.body;
         this.$app.finishLoading();
       })
@@ -128,21 +167,43 @@ export default {
         this.$app.toast('URL을 정확히 입력하세요!');
         return;
       }
+      this.categoryDialog.show = true;
+    },
+    processAddScrap() {
       this.$app.startLoading();
-      Scraps.create({ url: this.scrapUrl, userId: this.$store.getters.loginUser.id }).then(() => {
+      Scraps.create({ url: this.scrapUrl, userId: this.userId, categoryId: this.categoryDialog.selectedCategoryId }).then(() => {
         this.$app.finishLoading();
-        this.findScraps();
+        this.loadUserScraps();
+        this.categoryDialog.show = false;
       }, () => {
         this.$app.toast('스크랩 저장에 실패하였습니다.');
         this.$app.finishLoading();
+        this.categoryDialog.show = false;
       });
-
       this.scrapUrl = '';
     },
     async deleteScrap(scrapId) {
       this.$app.startLoading();
       await Scraps.delete(scrapId)
-      this.findScraps();
+      this.loadUserScraps();
+    },
+    onDialogClose() {
+      this.categoryDialog.show = false;
+      this.scrapUrl = '';
+    },
+    onDialogOk() {
+      if (this.categoryDialog.selectedCategoryId == 0) {
+        this.$app.toast('카테고리를 선택하세요');
+        return;
+      }
+      this.processAddScrap();
+    },
+    onActive(id) {
+      if (id.length == 1) {
+        this.categoryDialog.selectedCategoryId = id[0]
+      } else {
+        this.categoryDialog.selectedCategoryId = 0
+      }
     }
   }
 };

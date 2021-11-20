@@ -1,5 +1,6 @@
 package com.hst.scrapper.modules.scrap.application
 
+import com.hst.scrapper.modules.category.application.CategoryService
 import com.hst.scrapper.modules.scrap.domain.entity.Scrap
 import com.hst.scrapper.modules.scrap.domain.exception.ScrapNotFoundException
 import com.hst.scrapper.modules.scrap.domain.repo.ScrapRepository
@@ -17,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 class ScrapService(
     private val userService: UserService,
     private val scrapRepository: ScrapRepository,
-    private val metadataReader: WebMetadataReader
+    private val metadataReader: WebMetadataReader,
+    private val categoryService: CategoryService
 ) {
 
     /**
@@ -46,7 +48,8 @@ class ScrapService(
             title = metadata.title,
             description = metadata.description,
             image = metadata.imageUrl,
-            scrapedUser = userService.getUser(request.userId)
+            scrapedUser = userService.getUser(request.userId),
+            category = categoryService.getCategory(request.categoryId)
         )
         scrapRepository.save(newScrap)
     }

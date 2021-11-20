@@ -52,7 +52,9 @@
     <!-- Global Notification Message -->
     <v-snackbar v-model="alerts.visible" top multi-line :timeout="alerts.timeout">
       {{alerts.message}}
-      <v-btn dark text @click="alerts.visible = false">Close</v-btn>
+      <template v-slot:action="{ attrs }">
+        <v-btn v-bind="attrs" dark text @click="alerts.visible = false">Close</v-btn>
+      </template>      
     </v-snackbar>
 
     <!-- Global Loading Overay -->

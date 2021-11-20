@@ -13,7 +13,7 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use((response) => { return response; }, (error) => {
   if (error.response.status == 403) {
-    alert('세션이 유효하지 않습니다.');
+    applib.toast('세션이 유효하지 않습니다.');
     store.dispatch("LOGOUT");
     router.push('/login');
     applib.finishLoading();
