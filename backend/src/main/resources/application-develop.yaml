@@ -1,0 +1,21 @@
+# server settings
+server:
+  port: 8002
+
+# database settings
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://133.186.151.21:3306/site_scrapper
+    username: root
+    password: hst1216!
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.globally_quoted_identifiers: true
+  jwt:
+    expire-day: 1
+    secret-key: HYUNGYU.LEE_SECRET!!
