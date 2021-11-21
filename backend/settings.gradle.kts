@@ -1,1 +1,1 @@
-rootProject.name = "scrapper"
+rootProject.name = "site-scrapper"
